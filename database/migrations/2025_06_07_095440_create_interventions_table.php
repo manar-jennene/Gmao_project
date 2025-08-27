@@ -27,6 +27,11 @@ return new class extends Migration
             $table->string('telephone');
             $table->string('email');
 
+            $table->string('resume');
+            $table->string('site');
+
+
+
             // Clés étrangères vers les tables statut, priorité, équipement
             $table->unsignedBigInteger('statut_id')->nullable();
             $table->unsignedBigInteger('priorite_id')->nullable();

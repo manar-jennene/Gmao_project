@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Historique;
 use Illuminate\Http\Request;
 use App\Models\Intervention;
 use Illuminate\Support\Facades\Storage; // Importer la façade Storage
@@ -40,13 +40,18 @@ class InterventionController extends Controller
                 'date_creation' => 'nullable|date',
                 'date_fin' => 'nullable|date|after_or_equal:date_creation',
                 'responsable' => 'nullable|exists:users,id',
-                'rapporteur' => 'nullable|exists:users,id',
+                // 'rapporteur' retiré
                 'telephone' => 'required|string|max:20',
                 'email' => 'required|email|max:255',
+                'resume' => 'required',
+                'site' => 'required',
                 'statut_id' => 'nullable|exists:statuts,id',
                 'priorite_id' => 'nullable|exists:priorites,id',
                 'equipement_id' => 'nullable|exists:equipements,id'
             ]);
+
+            // Affecter automatiquement le rapporteur connecté
+            $validatedData['rapporteur'] = auth()->id();
 
             // Si un fichier est envoyé
             if ($request->hasFile('file')) {
@@ -55,7 +60,6 @@ class InterventionController extends Controller
 
             $intervention = Intervention::create($validatedData);
 
-            // Charger toutes les relations nécessaires
             $intervention->load(['statut', 'priorite', 'equipement', 'rapporteur', 'responsable']);
 
             return response()->json([
@@ -78,11 +82,21 @@ class InterventionController extends Controller
             ], 500);
         }
     }
+
     public function update(Request $request, $id)
     {
         try {
+            // Vérifier que l'utilisateur est connecté
+            if (!auth()->check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Utilisateur non authentifié.'
+                ], 401);
+            }
+    
             $intervention = Intervention::findOrFail($id);
-
+            $oldValues = $intervention->toArray(); // anciennes valeurs
+    
             $validatedData = $request->validate([
                 'description' => 'nullable|string',
                 'reference' => 'nullable|string|unique:interventions,reference,' . $id,
@@ -90,32 +104,55 @@ class InterventionController extends Controller
                 'date_creation' => 'nullable|date',
                 'date_fin' => 'nullable|date|after_or_equal:date_creation',
                 'responsable' => 'nullable|exists:users,id',
-                'rapporteur' => 'nullable|exists:users,id',
                 'telephone' => 'required|string|max:20',
                 'email' => 'required|email|max:255',
+                'resume' => 'required',
+                'site' => 'required',
                 'statut_id' => 'nullable|exists:statuts,id',
                 'priorite_id' => 'nullable|exists:priorites,id',
                 'equipement_id' => 'nullable|exists:equipements,id'
             ]);
-
+    
+            // Gestion du fichier
             if ($request->hasFile('file')) {
-                // Supprimer l'ancien fichier s'il existe
                 if ($intervention->file) {
                     Storage::disk('public')->delete($intervention->file);
                 }
-
-                // Stocker le nouveau fichier
                 $validatedData['file'] = $request->file('file')->store('interventions', 'public');
             }
-
+    
+            // Comparer anciennes et nouvelles valeurs
+            foreach ($validatedData as $field => $newValue) {
+                $oldValue = $oldValues[$field] ?? null;
+    
+                // Si le champ est un fichier UploadedFile, on le transforme en string (nom du fichier)
+                if ($newValue instanceof \Illuminate\Http\UploadedFile) {
+                    $newValue = $validatedData['file'] ?? null;
+                }
+    
+                // Enregistrer seulement si changement
+                if ($oldValue != $newValue) {
+                    Historique::create([
+                        'attribut' => $field,
+                        'previus' => is_null($oldValue) ? null : (string)$oldValue,
+                        'next' => is_null($newValue) ? null : (string)$newValue,
+                        'user_id' => auth()->id() ?? 1, // <--- ici
+                        'intervention_id' => $intervention->id,
+                        'maintenancepreventive_id' => null
+                    ]);
+                }
+            }
+    
+            // Mise à jour réelle
             $intervention->update($validatedData);
             $intervention->load(['statut', 'priorite', 'equipement', 'rapporteur', 'responsable']);
-
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Intervention mise à jour avec succès.',
                 'data' => $intervention
             ]);
+    
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
@@ -123,13 +160,15 @@ class InterventionController extends Controller
                 'errors' => $e->errors()
             ], 422);
         } catch (\Exception $e) {
-            \Log::error('Erreur lors de la mise à jour: ' . $e->getMessage());
+            // Pour debug : afficher l'erreur exacte
             return response()->json([
                 'success' => false,
-                'message' => 'Erreur interne.'
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
             ], 500);
         }
     }
+    
     public function destroy($id)
     {
         try {

@@ -21,7 +21,11 @@ class Intervention extends Model
         'email',
         'statut_id',
         'priorite_id' ,
-        'equipement_id'// clé étrangère vers table statut
+        'equipement_id',
+        // clé étrangère vers table statut,
+        'resume',
+        'site'
+
     ];
 
     // Relation avec le modèle Statut
@@ -49,6 +53,14 @@ public function responsable()
     return $this->belongsTo(User::class, 'responsable');
 }
 
+public function commentaires()
+{
+    return $this->hasMany(Commentaire::class);
+}
 
+public function histories()
+{
+    return $this->hasMany(Historique::class)->with('user');
+}
 
 }

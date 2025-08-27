@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Statut;
 use Illuminate\Validation\Rule; // Importez Rule pour la validation unique
+use App\Models\Intervention;
+use App\Models\Categorie;
+
 
 class StatutController extends Controller
 {
@@ -24,6 +27,20 @@ class StatutController extends Controller
             ], 500);
         }
     }
+
+    public function getcategorie()
+    {
+        try {
+            $categorie = Categorie::all();
+            return response()->json($categorie, 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Erreur lors de la récupération des categorie',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
 
 
     /**
@@ -61,6 +78,82 @@ class StatutController extends Controller
         }
     }
 
+    public function addCategorie(Request $request)
+    {
+        try {
+            // Validation
+            $request->validate([
+                'nom' => 'required|string|max:255',
+                'description' => 'nullable|string'
+            ]);
+    
+            // Création de la catégorie
+            $categorie = Categorie::create([
+                'nom' => $request->nom,
+                'description' => $request->description
+            ]);
+    
+            return response()->json([
+                'message' => 'Catégorie ajoutée avec succès',
+                'categorie' => $categorie
+            ], 201);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erreur lors de l\'ajout de la catégorie',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+    public function updateCategorie(Request $request, $id)
+{
+    try {
+        // Validation
+        $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'nullable|string'
+        ]);
+
+        // Recherche de la catégorie
+        $categorie = Categorie::findOrFail($id);
+
+        // Mise à jour
+        $categorie->update([
+            'nom' => $request->nom,
+            'description' => $request->description
+        ]);
+
+        return response()->json([
+            'message' => 'Catégorie mise à jour avec succès',
+            'categorie' => $categorie
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Erreur lors de la mise à jour de la catégorie',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+public function destroyCategorie($id)
+{
+    try {
+        $categorie = Categorie::findOrFail($id);
+        $categorie->delete();
+
+        return response()->json([
+            'message' => 'Catégorie supprimée avec succès'
+        ], 200);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error' => 'Erreur lors de la suppression de la catégorie',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
     /**
      * Display the specified resource.
      *
@@ -90,38 +183,25 @@ class StatutController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $interventionId)
     {
         try {
-            // 1. Trouver le statut existant ou échouer (génère 404 si non trouvé)
-            $statut = Statut::findOrFail($id);
+            $intervention = Intervention::findOrFail($interventionId);
 
-            // 2. Valider les données entrantes
             $validatedData = $request->validate([
-                'libelle' => [
-                    'required',
-                    'string',
-                     // Vérifier l'unicité, mais ignorer l'enregistrement actuel ($id)
-                    Rule::unique('statuts', 'libelle')->ignore($id),
-                ]
-                // Ajoutez d'autres règles de validation si nécessaire
+                'id' => 'required|exists:statuts,id',
+                // 'libelle' => 'required|string', // si besoin
             ]);
 
-            // 3. Mettre à jour les propriétés du modèle
-            $statut->libelle = $validatedData['libelle'];
+            $intervention->statut_id = $validatedData['id'];
+            $intervention->save();
 
-            // 4. Sauvegarder les modifications dans la base de données
-            $statut->save();
-
-            // 5. Retourner une réponse (souvent l'objet mis à jour)
-            return response()->json($statut, 200);
-
+            return response()->json($intervention->statut, 200); // retourne le nouveau statut
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Statut non trouvé pour la mise à jour'], 404);
+            return response()->json(['error' => 'Intervention non trouvée'], 404);
         } catch (ValidationException $e) {
             return response()->json(['error' => 'Validation échouée', 'messages' => $e->errors()], 422);
         } catch (\Exception $e) {
-            // Autres erreurs potentielles (ex: erreur base de données lors du save)
             return response()->json(['error' => 'Erreur lors de la mise à jour du statut', 'message' => $e->getMessage()], 500);
         }
     }
