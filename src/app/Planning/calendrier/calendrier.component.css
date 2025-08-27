@@ -1,0 +1,105 @@
+/* Structure globale */
+.layout {
+  display: flex;
+}
+
+/* Sidebar fixe à gauche */
+app-sidebar {
+  width: 250px; /* largeur sidebar */
+  flex-shrink: 0;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Contenu principal */
+.content {
+  flex-grow: 1;
+  padding: 80px 20px 20px 20px; /* marge en haut pour header + autour */
+}
+
+/* Header fixe en haut */
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px; /* hauteur du header */
+  background-color: #fff;
+  z-index: 1000;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Décalage pour éviter que le calendrier passe sous le header */
+.calendar-container {
+  background: white;
+  padding: 50px;
+}
+
+
+
+/* Événements plus grands et plus lisibles */
+:host ::ng-deep .fc-daygrid-event {
+  font-size: 14px;
+  padding: 6px 8px;
+  white-space: normal; /* autorise multi-lignes */
+  line-height: 1.4;
+  border-radius: 5px;
+}
+
+/* Agrandir la hauteur des cellules pour laisser de la place au résumé */
+:host ::ng-deep .fc-daygrid-day {
+  min-height: 120px !important;
+}
+
+/* Si tu veux que la largeur globale du calendrier occupe 100% */
+:host ::ng-deep .fc {
+  width: 100% !important;
+}
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.statut-filter {
+  display: inline-block;
+  padding: 3px 8px;
+  margin-right: 5px;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+  user-select: none;
+}
+
+.statut-filter input {
+  margin-right: 5px;
+}
+/* Fond plus foncé pour la section des filtres */
+.filters-section {
+  background-color: #eaeaea;
+  border-radius: 8px;
+  color: #050505;
+}
+
+/* Boutons de statut avec tes couleurs */
+.status-ouvert { background-color: #6ab3da; color: white; }
+.status-encours { background-color: #8e44ad; color: white; }
+.status-enattente { background-color: #f39c12; color: white; }
+.status-resolu { background-color: #1abc9c; color: white; }
+.status-valide { background-color: #27ae60; color: white; }
+.status-rejete { background-color: #e74c3c; color: white; }
+.status-cloture { background-color: #95a5a6; color: white; }
+
+/* Un peu d'espace entre les boutons */
+.status-filters .btn {
+  margin: 4px;
+}
+
+/* Radios verticales */
+.event-type-filters label {
+  margin-bottom: 6px;
+}
+.active-filter {
+  filter: grayscale(80%);
+  opacity: 0.7;
+}

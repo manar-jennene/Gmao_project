@@ -1,0 +1,116 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="main-container">
+  <div class="pd-20 card-box mb-30">
+
+    <!-- 🟢 Titre principal hors card -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="text-blue h4"><i class="fa fa-cogs mr-2"></i> Maintenance plan</h4>
+      <span class="badge badge-pill badge-primary">Ongoing</span>
+    </div>
+
+    <div class="row">
+
+      <!-- 🟢 Colonne Gauche : Infos générales dans UNE SEULE card -->
+      <div class="col-md-7">
+        <div class="card p-4 shadow-sm">
+          <ul class="list-unstyled mb-0">
+
+            <li class="mb-3">
+              <i class="fa fa-align-left mr-2 text-muted"></i>
+              <strong>Description</strong><br>
+              <span>{{ plan.description || 'AAAAAAA' }}</span>
+            </li>
+
+            <li class="mb-3">
+              <i class="fa fa-sync-alt mr-2 text-muted"></i>
+              <strong>Frequency</strong><br>
+              <span>Every {{ plan.frequence || 2 }}  (duration: 1 day)</span>
+            </li>
+            <li class="mb-3">
+              <i class="fa fa-sync-alt mr-2 text-muted"></i>
+              <strong>Periodicite</strong><br>
+              <span>            {{ plan.periodicite || 'days' }}
+              </span>
+            </li>
+            <li class="mb-3">
+              <i class="fa fa-calendar-alt mr-2 text-muted"></i>
+              <strong>Next occurrence</strong><br>
+              <span class="badge badge-secondary">{{ prochaineOccurrence | date:'longDate' }}</span>
+            </li>
+
+
+
+            <li class="mb-3">
+              <i class="fa fa-tag mr-2 text-muted"></i>
+              <strong>Priority</strong><br>
+              <span class="badge badge-danger">
+              {{ plan.priorite?.libelle || 'Not defined' }}
+              </span>
+            </li>
+
+            <li class="mb-3">
+              <i class="fa fa-eye mr-2 text-muted"></i>
+              <strong>Responsable </strong><br>
+              {{ plan.responsable?.nom || 'Not defined' }}
+            </li>
+
+
+
+          </ul>
+        </div>
+      </div>
+
+      <!-- 🔵 Colonne Droite -->
+      <div class="col-md-5">
+        <!-- Equipment Card -->
+        <div *ngIf="plan?.equipement as equipement">
+          <div class="card p-3 mb-3">
+            <h6 class="text-muted mb-2">Equipment</h6>
+
+            <div class="d-flex align-items-center mb-2">
+              <!-- Image de l’équipement -->
+              <img
+                [src]="'http://localhost:8000/storage/' + equipement.image"
+                (error)="onImageError($event)"
+                alt="Image équipement"
+                width="40" height="40"
+                class="me-2 rounded-circle">
+
+              <!-- Nom de l’équipement -->
+              <strong class="text-primary">{{ equipement.nom }}</strong>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Regulation / Time Card -->
+        <div class="card p-3">
+          <p><i class="fa fa-bullseye mr-2 text-muted"></i><strong>Trigger:</strong> {{ plan.trigger_type || 'Fixed date' }}</p>
+          <p><i class="fa fa-wrench mr-2 text-muted"></i><strong>Planned maintenance time:</strong> {{ plan.temps_estime_jours }}</p>
+          <p><i class="fa fa-stopwatch mr-2 text-muted"></i><strong>Planned stopped time:</strong> {{ plan.temps_estime_heures }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔧 Spare parts -->
+    <div class="card mt-4 p-3">
+      <h6><i class="fa fa-cogs mr-2 text-muted"></i>Spare parts to be provided</h6>
+      <p class="text-muted">No spare part linked.</p>
+    </div>
+
+    <!-- 📜 Documents -->
+    <div class="card mt-3 p-3">
+      <h6><i class="fa fa-file-alt mr-2 text-muted"></i>Documents</h6>
+      <p class="text-muted">No documents available.</p>
+    </div>
+
+    <!-- 📘 History -->
+    <div class="card mt-3 p-3">
+      <h6><i class="fa fa-history mr-2 text-muted"></i>History <span class="badge badge-pill badge-light ml-2">0</span></h6>
+      <p class="text-muted">No history available at this time.</p>
+    </div>
+  </div>
+</div>
+

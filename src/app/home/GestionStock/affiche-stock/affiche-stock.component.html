@@ -1,0 +1,133 @@
+
+<!-- preloader -->
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+
+<div #preloader class="pre-loader">
+  <div class="pre-loader-box">
+    <div class="loader-logo">
+      <img src="assets/vendors/images/logo.png" alt="logo" style="max-width:120px">
+    </div>
+    <div class="loader-progress" id="progress_div">
+      <div #bar class="bar" id="bar1"></div>
+    </div>
+    <div #percent class="percent" id="percent1">0%</div>
+    <div class="loading-text">Loading...</div>
+  </div>
+</div>
+
+
+
+<main class="container">
+  <!-- left big card: My operations -->
+  <section class="card">
+    <div class="left-accent" style="background:#19a1c8"></div>
+    <div class="card-title" style="color:#19a1c8">Mes operations</div>
+
+    <div class="ops-grid">
+      <div class="op-btn">Demande un Stock </div>
+      <div class="op-btn">Ajouter Stock</div>
+      <div class="op-btn">Historique de stock </div>
+      <div class="op-btn">Statistique </div>
+    </div>
+  </section>
+
+  <!-- right: Products in stock alert -->
+  <section class="card">
+    <div class="left-accent" style="background:#19a1c8"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <div class="card-title" style="color:#e24f3a;display:inline-block;">Products in stock alert</div>
+        <span class="small-note">0</span>
+      </div>
+    </div>
+
+    <table aria-label="produits alerte">
+      <thead>
+        <tr>
+          <th>Reference</th>
+          <th>Name</th>
+          <th>Minimum stock</th>
+          <th>Actual stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="muted-row"><td colspan="4"></td></tr>
+        <tr>
+          <td>PR-001</td>
+          <td>Ressort Amortisseur</td>
+          <td>10</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td>PR-002</td>
+          <td>Visserie M6</td>
+          <td>50</td>
+          <td>75</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- bottom row -->
+  <div class="bottom-row" style="grid-column: 1 / -1;">
+    <section class="card">
+      <div class="left-accent" style="background:#ff9b3b"></div>
+      <div class="card-title" style="color:#ff9b3b;display:inline-block;">
+        Ongoing shipment <span class="small-note">0</span>
+      </div>
+      <div class="see-more">See more &gt;</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Order N°</th>
+            <th>Customer</th>
+            <th>Order date</th>
+            <th>Site</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="muted-row"><td colspan="4"></td></tr>
+          <tr>
+            <td>ORD-101</td>
+            <td>ACME Corp.</td>
+            <td>2025-08-18</td>
+            <td>Site A</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="left-accent" style="background:#6b5fa8"></div>
+      <div class="card-title" style="color:#6b5fa8;display:inline-block;">
+        Ongoing reception <span class="small-note">0</span>
+      </div>
+      <div class="see-more">See more &gt;</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Order N°</th>
+            <th>Delivery N°</th>
+            <th>Supplier</th>
+            <th>Order date</th>
+            <th>Site</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="muted-row"><td colspan="5"></td></tr>
+          <tr>
+            <td>RCV-202</td>
+            <td>DLV-089</td>
+            <td>GlobalParts</td>
+            <td>2025-08-17</td>
+            <td>Site B</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</main>

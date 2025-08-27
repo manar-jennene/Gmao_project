@@ -1,0 +1,97 @@
+<h5 class="mb-3">{{ isEditMode ? 'Modifier un Équipement' : 'Ajouter un Équipement' }}</h5>
+
+<form [formGroup]="equipementForm" (ngSubmit)="onSubmit()">
+  <!-- Nom -->
+  <div class="form-group mb-3">
+    <label for="nom">Nom</label>
+    <input
+      type="text"
+      id="nom"
+      formControlName="nom"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': equipementForm.get('nom')?.invalid && equipementForm.get('nom')?.touched }"
+      placeholder="Entrez le nom de l'équipement"
+    />
+    <div class="invalid-feedback" *ngIf="equipementForm.get('nom')?.invalid && equipementForm.get('nom')?.touched">
+      Le nom est requis.
+    </div>
+  </div>
+
+  <!-- Description -->
+  <div class="form-group mb-3">
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      formControlName="description"
+      class="form-control"
+      rows="3"
+      placeholder="Entrez la description"
+    ></textarea>
+  </div>
+
+  <!-- Référence -->
+  <div class="form-group mb-3">
+    <label for="reference">Référence</label>
+    <input
+      type="text"
+      id="reference"
+      formControlName="reference"
+      class="form-control"
+      placeholder="Référence unique"
+    />
+  </div>
+
+  <!-- Marque -->
+  <div class="form-group mb-3">
+    <label for="marque">Marque</label>
+    <input
+      type="text"
+      id="marque"
+      formControlName="marque"
+      class="form-control"
+      placeholder="Entrez la marque"
+    />
+  </div>
+
+  <!-- Date de mise en service -->
+  <div class="form-group mb-3">
+    <label for="date_mise_en_service">Date de mise en service</label>
+    <input
+      type="date"
+      id="date_mise_en_service"
+      formControlName="date_mise_en_service"
+      class="form-control"
+    />
+  </div>
+
+  <!-- Statut -->
+  <div class="form-group mb-3">
+    <label for="statut_id">Statut</label>
+    <select
+      id="statut_id"
+      formControlName="statut_id"
+      class="form-control"
+      [ngClass]="{ 'is-invalid': equipementForm.get('statut_id')?.invalid && equipementForm.get('statut_id')?.touched }"
+    >
+      <option value="">-- Sélectionnez un statut --</option>
+      <option *ngFor="let s of statuts" [value]="s.id">{{ s.libelle }}</option>
+    </select>
+    <div class="invalid-feedback" *ngIf="equipementForm.get('statut_id')?.invalid && equipementForm.get('statut_id')?.touched">
+      Le statut est requis.
+    </div>
+  </div>
+
+  <!-- Image -->
+  <div class="form-group mb-3">
+    <label for="image">Image</label>
+    <input type="file" id="image" class="form-control" (change)="onFileSelected($event)" />
+  </div>
+
+  <!-- Boutons -->
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary me-2" (click)="close()">Annuler</button>
+    <button type="submit" class="btn btn-primary" [disabled]="equipementForm.invalid">
+      {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,156 @@
+<h5 class="mb-3">{{ isEditMode ? 'Modifier Intervention' : 'Ajouter une Intervention' }}</h5>
+
+<form [formGroup]="interventionForm" (ngSubmit)="onSubmit()">
+  <!-- Référence -->
+  <div class="form-group mb-3">
+    <label for="reference">Référence</label>
+    <input
+      type="text"
+      id="reference"
+      formControlName="reference"
+      class="form-control"
+      placeholder="Référence unique"
+    />
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="resume">Resumé</label>
+    <input
+      type="text"
+      id="resume"
+      formControlName="resume"
+      class="form-control"
+      placeholder="resume "
+    />
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="site">Site</label>
+    <input
+      type="text"
+      id="site"
+      formControlName="site"
+      class="form-control"
+      placeholder="Site"
+    />
+  </div>
+
+  <!-- Description -->
+  <div class="form-group mb-3">
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      formControlName="description"
+      class="form-control"
+      rows="3"
+      placeholder="Entrez la description"
+    ></textarea>
+  </div>
+
+  <!-- Téléphone -->
+  <div class="form-group mb-3">
+    <label for="telephone">Téléphone</label>
+    <input
+      type="text"
+      id="telephone"
+      formControlName="telephone"
+      class="form-control"
+      placeholder="Numéro de téléphone"
+    />
+  </div>
+
+  <!-- Email -->
+  <div class="form-group mb-3">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      formControlName="email"
+      class="form-control"
+      placeholder="Adresse email"
+    />
+  </div>
+
+  <!-- Date création -->
+  <div class="form-group mb-3">
+    <label for="date_creation">Date de création</label>
+    <input
+      type="date"
+      id="date_creation"
+      formControlName="date_creation"
+      class="form-control"
+    />
+  </div>
+
+  <!-- Date fin -->
+  <div class="form-group mb-3">
+    <label for="date_fin">Date de fin</label>
+    <input
+      type="date"
+      id="date_fin"
+      formControlName="date_fin"
+      class="form-control"
+    />
+  </div>
+
+  <!-- Statut (affiché uniquement en mode édition) -->
+ <!-- Statut, visible seulement en édition -->
+<div class="form-group mb-3" *ngIf="isEditMode">
+  <label for="statut_id">Statut</label>
+  <select id="statut_id" formControlName="statut_id" class="form-control">
+    <option value="">-- Sélectionnez un statut --</option>
+    <option *ngFor="let s of statuts" [value]="s.id">{{ s.libelle }}</option>
+  </select>
+</div>
+
+
+  <!-- Priorité -->
+  <div class="form-group mb-3">
+    <label for="priorite_id">Priorité</label>
+    <select id="priorite_id" formControlName="priorite_id" class="form-control">
+      <option value="">-- Sélectionnez une priorité --</option>
+      <option *ngFor="let p of priorites" [value]="p.id">{{ p.libelle }}</option>
+    </select>
+  </div>
+
+  <!-- Équipement -->
+  <div class="form-group mb-3">
+    <label for="equipement_id">Équipement</label>
+    <select id="equipement_id" formControlName="equipement_id" class="form-control">
+      <option value="">-- Sélectionnez un équipement --</option>
+      <option *ngFor="let e of equipements" [value]="e.id">{{ e.nom }}</option>
+    </select>
+  </div>
+
+  <!-- Responsable -->
+  <!-- <div class="form-group mb-3">
+    <label for="responsable">Responsable</label>
+    <select id="responsable" formControlName="responsable" class="form-control">
+      <option value="">-- Sélectionnez un responsable --</option>
+      <option *ngFor="let r of users" [value]="r.id">{{ r.nom }}</option>
+    </select>
+  </div> -->
+
+  <!-- Rapporteur -->
+  <!-- <div class="form-group mb-3">
+    <label for="rapporteur">Rapporteur</label>
+    <select id="rapporteur" formControlName="rapporteur" class="form-control">
+      <option value="">-- Sélectionnez un rapporteur --</option>
+      <option *ngFor="let u of users" [value]="u.id">{{ u.nom }}</option>
+    </select>
+  </div> -->
+
+  <!-- Fichier joint -->
+  <div class="form-group mb-3">
+    <label for="file">Fichier</label>
+    <input type="file" id="file" class="form-control" (change)="onFileSelected($event)" />
+  </div>
+
+  <!-- Boutons -->
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary me-2" (click)="close()">Annuler</button>
+    <button type="submit" class="btn btn-primary" [disabled]="interventionForm.invalid">
+      {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+    </button>
+  </div>
+</form>

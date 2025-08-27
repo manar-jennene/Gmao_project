@@ -1,0 +1,132 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="main-container">
+  <div class="pd-ltr-20 xs-pd-20-10">
+    <div class="min-height-200px">
+      
+      <!-- En-tête de la page -->
+      <div class="page-header mb-3">
+        <div class="row align-items-end">
+          
+          <!-- Titre + Breadcrumb -->
+          <div class="col-md-6 col-sm-12">
+            <div class="title">
+              <h4>Gestion des Statuts</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a routerLink="/index">Accueil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Statut</li>
+              </ol>
+            </nav>
+          </div>
+
+          <!-- Barre de recherche + bouton -->
+          <div class="col-md-6 col-sm-12 d-flex justify-content-end align-items-center">
+            <div class="input-group me-2" style="max-width: 250px;">
+              <input type="text" [ngModel]="searchTerm" (ngModelChange)="filterStatuts($event)" placeholder="Rechercher un statut...">
+
+          <!-- Supprime ce bloc si tu veux une recherche sans bouton -->
+<div class="input-group-append">
+  <button class="btn btn-outline-secondary" type="button">
+    <i class="fa fa-search"></i>
+  </button>
+</div>
+
+            </div>
+
+            <button class="btn btn-primary" (click)="openModal()">
+              <i class="dw dw-add"></i> Ajouter un Statut
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Table des statuts -->
+      <div class="card-box mb-30">
+        <div class="table-responsive">
+          <table class="table table-hover data-table stripe nowrap statuts-table text-center">
+            <thead style="background-color: #1a83ec; color: #3082d5; font-weight: 600;" class="text-center">
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Libelle</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngIf="!statuts || statuts.length === 0">
+                <td colspan="3" class="text-center text-muted pt-4 pb-4">
+                  Aucun statut trouvé.
+                </td>
+              </tr>
+              <tr *ngFor="let statut of filteredStatuts" class="align-middle">
+                <td>{{ statut.id }}</td>
+                <td>{{ statut.libelle }}</td>
+                <td>
+                  <div class="btn-list d-flex justify-content-center gap-1">
+                    <button class="btn btn-sm" title="Voir" style="background-color:#007bff; color:#fff;" (click)="voirDetail(statut)">
+                      <i class="fa fa-eye"></i>
+                    </button>
+
+                    <button class="btn btn-sm" title="Modifier" style="background-color:#ffc107; color:#000;" (click)="openEditModal(statut)">
+                      <i class="fa fa-pencil"></i>
+                    </button>
+
+                    <button class="btn btn-sm" title="Supprimer" style="background-color:#dc3545; color:#fff;" (click)="confirmDelete(statut.id)">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de suppression -->
+<div id="deleteModal" class="modal" style="display: none;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmation</h5>
+        <button type="button" class="close" (click)="closeDeleteModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p>Voulez-vous vraiment supprimer ce statut ?</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Annuler</button>
+        <button type="button" class="btn btn-danger" (click)="deleteStatut()">Supprimer</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal ajout/modification -->
+<div class="custom-modal" *ngIf="showModal">
+  <div class="custom-modal-content">
+    <span class="close-button" (click)="closeModal()">&times;</span>
+    <app-ajout-statut 
+      [statutToEdit]="statutEnCoursEdition ?? undefined"
+      (onClose)="closeModal($event)">
+    </app-ajout-statut>
+  </div>
+</div>
+
+<!-- Modal détails -->
+<app-detailstatut
+  *ngIf="showDetailModal"
+  [statut]="selectedStatut"
+  (onClose)="fermerDetailModal()">
+</app-detailstatut>

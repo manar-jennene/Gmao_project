@@ -1,0 +1,8 @@
+.badge {
+  font-size: 13px;
+  padding: 6px 12px;
+}
+
+img.rounded-circle {
+  object-fit: cover;
+}

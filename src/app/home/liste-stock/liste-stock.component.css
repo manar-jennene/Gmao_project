@@ -1,0 +1,24 @@
+/* Style moderne du thead */
+.custom-thead {
+  background-color: #2c3e50; /* bleu foncé élégant */
+  color: #ecf0f1;            /* gris clair */
+}
+
+.custom-thead th {
+  font-family: 'Poppins', sans-serif; /* police moderne */
+  font-size: 14px;                    /* taille légèrement réduite */
+  font-weight: 700;                   /* bien marqué */
+  letter-spacing: 1px;                /* espace entre les lettres */
+  text-transform: uppercase;          /* majuscules */
+  padding: 14px;
+  text-align: center;
+  border-bottom: 2px solid #1abc9c;   /* petite bordure colorée en bas */
+}
+
+
+/* Hover sur lignes */
+.table-row:hover {
+  background-color: #f1f5ff !important;
+  cursor: pointer;
+  transition: 0.3s ease;
+}

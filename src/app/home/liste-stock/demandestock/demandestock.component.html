@@ -1,0 +1,125 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="main-container">
+  <div class="pd-ltr-20 xs-pd-20-10">
+    <div class="min-height-200px">
+
+      <!-- En-tête -->
+      <div class="page-header mb-3">
+
+
+      <div class="col-md-6 col-sm-12">
+        <div class="title">
+          <h4>Demande de Stock </h4>
+        </div>
+        <nav aria-label="breadcrumb" role="navigation">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a routerLink="/index">Accueil</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Créer et suivre vos demandes de stock </li>
+          </ol>
+        </nav>
+      </div>
+</div>
+      <!-- Formulaire dans une card -->
+      <div class="card shadow-lg border-0 rounded-4 mb-4">
+        <div class="card-header bg-primary text-white rounded-top-4">
+          <h5 class="mb-0">➕ Nouvelle Demande</h5>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="demandeForm" (ngSubmit)="onSubmit()" class="row g-3">
+
+            <!-- Pièce -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">🛠️ Pièce</label>
+              <select formControlName="piece_id" class="form-select">
+                <option *ngFor="let piece of pieces" [value]="piece.id">{{ piece.nom }}</option>
+              </select>
+            </div>
+
+            <!-- Quantité -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">📏 Quantité demandée</label>
+              <input type="number" class="form-control" formControlName="quantite_demandee" />
+            </div>
+
+            <!-- Boutons -->
+            <div class="col-12 text-end mt-3">
+              <button class="btn btn-secondary me-2" type="reset">Annuler</button>
+              <button class="btn btn-success" type="submit">✅ Envoyer la demande</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tableau des demandes -->
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-secondary text-white rounded-top-4">
+          <h5 class="mb-0"> Mes Demandes</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Pièce</th>
+                  <th> Quantité</th>
+                  <th> Date demande</th>
+                  <th> Statut</th>
+                  <th> Action </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let d of demandes">
+                  <td>{{ getPieceNom(d.piece_id || 0) }}</td>
+                  <td><span class="badge bg-info text-dark">{{ d.quantite_demandee }}</span></td>
+                  <td>{{ d.date_demande | date:'dd/MM/yyyy' }}</td>
+                  <td>
+  <span [ngClass]="{
+    'badge bg-warning text-dark': d.statut_id === 1 || d.statut_id === 2 || d.statut_id === 3,
+    'badge bg-success': d.statut_id === 4 || d.statut_id === 5,
+    'badge bg-danger': d.statut_id === 6,
+    'badge bg-secondary': d.statut_id === 7
+  }">
+    {{ getStatutLabel(d.statut_id) }}
+  </span>
+                  </td>
+                  <td>
+                    <!-- Si la demande n’est pas encore validée ou rejetée -->
+                    <div *ngIf="!d.valide && !isRejete(d)">
+                      <button class="btn btn-sm btn-success me-1" (click)="validerDemande(d)">
+                        <i class="bi bi-check-circle"></i> Valider
+                      </button>
+
+                      <button class="btn btn-sm btn-danger me-1" (click)="rejeterDemande(d)">
+                        <i class="bi bi-x-circle"></i> Rejeter
+                      </button>
+                    </div>
+
+                    <!-- Si déjà validée -->
+                    <span *ngIf="d.valide" class="badge bg-success">
+    <i class="bi bi-check-circle-fill"></i> Validée
+  </span>
+
+                    <!-- Si déjà rejetée -->
+                    <span *ngIf="isRejete(d)" class="badge bg-danger">
+    <i class="bi bi-x-circle-fill"></i> Rejetée
+  </span>
+
+                    <!-- Toujours afficher le bouton détails -->
+                    <button class="btn btn-sm btn-info ms-2" (click)="voirDetails(d)">
+                      <i class="bi bi-eye"></i> Détails
+                    </button>
+                  </td>
+
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

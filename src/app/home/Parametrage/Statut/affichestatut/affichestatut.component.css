@@ -1,0 +1,113 @@
+.statuts-table {
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.statuts-table thead th {
+  background-color: #9fc1e2;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  border-bottom: 2px solid #dee2e6;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+
+.statuts-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.statuts-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.statuts-table tbody td {
+  padding: 0.85rem 0.75rem;
+  vertical-align: middle;
+}
+
+.statuts-table tbody tr td.text-muted {
+  color: #8898aa !important;
+}
+
+.statuts-table .action-btn {
+  border: none;
+  background-color: transparent !important;
+  color: #5e72e4;
+}
+
+.statuts-table .action-btn:hover,
+.statuts-table .action-btn:focus,
+.statuts-table .action-btn:active {
+  background-color: rgba(94, 114, 228, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.statuts-table .action-btn::after {
+  display: none;
+}
+
+.statuts-table .dropdown-menu-icon-list .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statuts-table .dropdown-menu-icon-list .dropdown-item i {
+  width: 16px;
+  text-align: center;
+}
+
+.card-box .table-responsive {
+  padding: 0;
+}
+
+.card-box {
+  padding: 1.5rem;
+  border: none;
+  box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15);
+  border-radius: 0.375rem;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+.statuts-table thead th {
+  text-align: center;
+}
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 600px;
+  max-width: 90%;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}

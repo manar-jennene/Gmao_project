@@ -1,0 +1,180 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<p-toast></p-toast>
+
+<div class="main-container">
+  <div class="pd-20 card-box mb-30">
+    <h4 class="text-blue h4 mb-20">
+      <i class="fa fa-cogs mr-2"></i>  Maintenance Plans
+    </h4>
+    <div class="maintenance-container">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <button class="btn btn-primary"><i class="fa fa-plus mr-1"></i> Creer</button>
+      </div>
+
+      <!-- Search and Filter -->
+      <!-- 🔍 Barre de recherche et bouton de filtre -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <input type="text" class="form-control w-50" placeholder="Recherche..."  />
+
+        <button class="btn btn-outline-secondary" (click)="toggleFilters()">
+          <i class="fa fa-filter"></i> Filtres
+        </button>
+      </div>
+
+      <!-- 🔽 Section de filtres -->
+      <!-- Section filtres améliorée -->
+      <div class="p-4 bg-white rounded shadow-sm mb-4 border" *ngIf="showFilters">
+        <div class="row g-4">
+          <!-- Colonne gauche -->
+          <div class="col-md-6">
+            <!-- Déclencheur -->
+            <div class="mb-3">
+              <label class="form-label fw-bold d-flex align-items-center">
+                <i class="fa fa-power-off me-2 text-primary"></i> Déclencheur
+              </label>
+              <select class="form-select" [(ngModel)]="filterValues.trigger_type" aria-label="Filtrer par déclencheur">
+                <option value="" disabled selected>Choisir un déclencheur...</option>
+                <option *ngFor="let t of triggerTypes" [value]="t">{{ t }}</option>
+              </select>
+            </div>
+
+            <!-- Responsable -->
+            <div class="mb-3">
+              <label class="form-label fw-bold d-flex align-items-center">
+                <i class="fa fa-user text-primary me-2"></i> Responsable
+              </label>
+              <select class="form-select" [(ngModel)]="filterValues.responsable" aria-label="Filtrer par responsable">
+                <option value="" disabled selected>Choisir un responsable...</option>
+                <option *ngFor="let r of responsables" [value]="r.id">{{ r.nom }}</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Colonne droite -->
+          <div class="col-md-6">
+            <!-- Équipements -->
+            <div class="mb-3">
+              <label class="form-label fw-bold d-flex align-items-center">
+                <i class="fa fa-tools me-2 text-primary"></i> Équipements
+              </label>
+              <select class="form-select" [(ngModel)]="filterValues.equipement" aria-label="Filtrer par équipement">
+                <option value="" disabled selected>Choisir un équipement...</option>
+                <option *ngFor="let e of equipements" [value]="e.id">{{ e.nom }}</option>
+              </select>
+            </div>
+
+            <!-- Priorité -->
+            <div class="mb-3">
+              <label class="form-label fw-bold d-flex align-items-center">
+                <i class="fa fa-exclamation-circle me-2 text-primary"></i> Priorité
+              </label>
+              <select class="form-select" [(ngModel)]="filterValues.priorite" aria-label="Filtrer par priorité">
+                <option value="" disabled selected>Choisir une priorité...</option>
+                <option *ngFor="let p of priorites" [value]="p.id">{{ p.libelle }}</option>
+              </select>
+            </div>
+
+            <!-- Périodicité -->
+            <div class="mb-3">
+              <label class="form-label fw-bold d-flex align-items-center">
+                <i class="fa fa-calendar-alt me-2 text-primary"></i> Périodicité
+              </label>
+              <select class="form-select" [(ngModel)]="filterValues.periodicite" aria-label="Filtrer par périodicité">
+                <option value="" disabled selected>Choisir une périodicité...</option>
+                <option *ngFor="let p of periodicite" [value]="p">{{ p }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Boutons -->
+        <div class="d-flex justify-content-end gap-3 mt-4">
+          <button class="btn btn-outline-danger px-4" (click)="resetFilters()">
+            <i class="fa fa-times-circle me-2"></i> Réinitialiser
+          </button>
+          <button class="btn btn-primary px-4" (click)="applyFilters()">
+            <i class="fa fa-filter me-2"></i> Appliquer
+          </button>
+        </div>
+      </div>
+
+
+
+
+      <!-- Table Header -->
+      <div class="table-header d-flex p-2 bg-light fw-bold border rounded">
+        <div class="col-2"><i class="fa fa-balance-scale"></i> Maintenance plan</div>
+        <div class="col-2"><i class="fa fa-tools"></i> Equipment</div>
+        <div class="col-2"><i class="fa fa-bolt"></i> Declencheur</div>
+        <div class="col-2"><i class="fa fa-calendar-day"></i>  occurrence prochaine </div>
+        <div class="col-2"><i class="fa fa-cogs"></i> Actions</div>
+      </div>
+
+      <!-- Table Row (static data) -->
+      <!-- Table Row (dynamic) -->
+      <div
+        class="table-row d-flex align-items-center p-3 border rounded my-2"
+        *ngFor="let plan of maintenancePlans"
+      >
+        <div class="col-2">
+          <div class="fw-bold">{{ plan.nom }}</div>
+          <div class="text-muted">
+            <i class="fa fa-sync"></i> {{ plan.periodicite }}
+          </div>
+          <div>
+            <i class="fa fa-user"></i>
+            <span class="badge bg-light text-dark">{{ plan.responsable.nom }}</span>
+          </div>
+          <div>
+            <i class="fa fa-tag"></i>
+            <span class="badge bg-secondary">{{ plan.priorite.libelle }}</span>
+          </div>
+        </div>
+
+        <div class="col-2">
+  <span class="badge bg-light text-dark">
+    <img [src]="'http://localhost:8000/storage/' + plan.equipement.image"
+         (error)="onImageError($event)"
+         alt="Image"  width="40" height="40" class="me-1">    {{ plan.equipement.nom }}
+  </span>
+        </div>
+
+        <div class="col-2 text-muted">{{ plan.trigger_type }}</div>
+
+        <div class="col-2">
+  <span class="badge bg-danger text-white">
+    {{ plan.prochaine_occurrence | date: 'MMMM d, y' }}
+  </span>
+
+        </div>
+
+        <div class="col-2 d-flex gap-2">
+          <button class="btn btn-sm btn-light" (click)="viewPlan(plan)"><i class="fa fa-eye"></i></button>
+          <button class="btn btn-sm btn-light" (click)="deletePlan(plan)"><i class="fa fa-pause"></i></button>
+          <button class="btn btn-sm btn-light" (click)="downloadPlan(plan)"><i class="fa fa-download"></i></button>
+          <button class="btn btn-sm btn-light" (click)="duplicatePlan(plan)"><i class="fa fa-copy"></i></button>
+        </div>
+      </div>
+
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div></div>
+        <nav>
+          <ul class="pagination mb-0">
+            <li class="page-item disabled"><a class="page-link">‹</a></li>
+            <li class="page-item active"><a class="page-link">1</a></li>
+            <li class="page-item"><a class="page-link">›</a></li>
+          </ul>
+        </nav>
+        <div>
+          <select class="form-select form-select-sm w-auto">
+            <option>10 items per page</option>
+            <option>20 items per page</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

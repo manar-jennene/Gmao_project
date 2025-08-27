@@ -1,0 +1,23 @@
+<h5 class="mb-3">Ajouter un nouveau statut</h5>
+
+<form [formGroup]="statutForm" (ngSubmit)="onSubmit()">
+  <div class="form-group mb-3">
+    <label for="libelle">Libellé</label>
+    <input
+      type="text"
+      id="libelle"
+      formControlName="libelle"
+      class="form-control"
+      [ngClass]="{'is-invalid': statutForm.get('libelle')?.invalid && statutForm.get('libelle')?.touched}"
+      placeholder="Entrez le libellé"
+    />
+    <div class="invalid-feedback" *ngIf="statutForm.get('libelle')?.invalid && statutForm.get('libelle')?.touched">
+      Le libellé est requis.
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-secondary me-2" (click)="close()">Annuler</button>
+    <button type="submit" class="btn btn-primary" [disabled]="statutForm.invalid">Ajouter</button>
+  </div>
+</form>

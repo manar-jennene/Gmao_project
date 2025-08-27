@@ -1,0 +1,82 @@
+<app-header></app-header>
+
+<div class="layout">
+  <app-sidebar></app-sidebar>
+
+  <main class="content">
+    <div class="calendar-container">
+
+      <!-- Section des filtres -->
+      <div class="filters-section p-3 mb-3">
+        <!-- Filtres par statut -->
+        <!-- Filtres par statut -->
+        <div class="status-filters mb-3">
+          <button class="btn status-ouvert"
+                  [class.active-filter]="selectedStatuts.includes('ouvert')"
+                  (click)="toggleStatut('ouvert')">Planifiée</button>
+
+          <button class="btn status-encours"
+                  [class.active-filter]="selectedStatuts.includes('en cours')"
+                  (click)="toggleStatut('en cours')">En cours</button>
+
+          <button class="btn status-enattente"
+                  [class.active-filter]="selectedStatuts.includes('en attente')"
+                  (click)="toggleStatut('en attente')">En retard et commencée</button>
+
+          <button class="btn status-resolu"
+                  [class.active-filter]="selectedStatuts.includes('resolu')"
+                  (click)="toggleStatut('resolu')">Terminée</button>
+
+          <button class="btn status-valide"
+                  [class.active-filter]="selectedStatuts.includes('valide')"
+                  (click)="toggleStatut('valide')">Validée</button>
+
+          <button class="btn status-rejete"
+                  [class.active-filter]="selectedStatuts.includes('rejete')"
+                  (click)="toggleStatut('rejete')">En Retard</button>
+
+          <button class="btn status-cloture"
+                  [class.active-filter]="selectedStatuts.includes('cloture')"
+                  (click)="toggleStatut('cloture')">Cloturée</button>
+        </div>
+
+
+        <!-- Filtres par type -->
+        <div class="event-type-filters mb-3 d-flex flex-column">
+          <label><input type="radio" name="type" value="all" [(ngModel)]="filters.type" (change)="applyFilters()"> Toutes les tâches</label>
+          <label><input type="radio" name="type" value="intervention" [(ngModel)]="filters.type" (change)="applyFilters()"> Tâches hors plan de maintenance</label>
+          <label><input type="radio" name="type" value="maintenance" [(ngModel)]="filters.type" (change)="applyFilters()"> Tâches de plan de maintenance</label>
+        </div>
+
+        <!-- Bouton reset -->
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-danger" (click)="resetFilters()">Effacer les filtres</button>
+        </div>
+      </div>
+
+      <!-- Calendrier -->
+      <full-calendar [options]="calendarOptions"></full-calendar>
+    </div>
+  </main>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="modal-title" id="eventModalLabel">{{ selectedEvent?.title }}</h5>
+        <div class="d-flex align-items-center">
+          <button class="bg-transparent text-white border-0 me-2"><i class="bi bi-pencil"></i></button>
+          <button class="bg-transparent text-white border-0 me-2"><i class="bi bi-trash"></i></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+      </div>
+      <div class="modal-body bg-dark text-white">
+        <p><i class="bi bi-info-circle"></i> {{ selectedEvent?.resume }}</p>
+        <p><i class="bi bi-calendar-plus"></i> Créé le : {{ selectedEvent?.date_creation | date:'dd/MM/yyyy HH:mm' }}</p>
+        <p><i class="bi bi-calendar-check"></i> Fini le : {{ selectedEvent?.date_fin | date:'dd/MM/yyyy HH:mm' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="popup-container">
+  <header class="popup-header">
+    <h5>Assigner un Responsable</h5>
+    <button type="button" class="close-btn" aria-label="Close" (click)="close()">&times;</button>
+  </header>
+
+  <form [formGroup]="responsableForm" (ngSubmit)="onSubmit()">
+    <div class="form-group mb-3">
+      <label for="responsable">Responsable</label>
+      <select
+        id="responsable"
+        formControlName="responsable"
+        class="form-select"
+        [ngClass]="{
+          'is-invalid': responsableForm.get('responsable')?.invalid && responsableForm.get('responsable')?.touched
+        }"
+      >
+        <option value="">-- Sélectionnez un responsable --</option>
+        <option *ngFor="let r of users" [value]="r.id">
+          {{ r.nom }}
+        </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="responsableForm.get('responsable')?.invalid && responsableForm.get('responsable')?.touched">
+        Responsable requis.
+      </div>
+    </div>
+
+    <div class="form-group mb-4">
+      <label for="commentaire">Commentaire</label>
+      <textarea
+        id="commentaire"
+        formControlName="commentaire"
+        class="form-control"
+        rows="3"
+        placeholder="Ajouter un commentaire..."
+        style="resize: vertical;"
+      ></textarea>
+    </div>
+
+    <footer class="popup-footer">
+      <button type="button" class="btn btn-secondary me-2" (click)="close()">Annuler</button>
+      <button type="submit" class="btn btn-primary" [disabled]="responsableForm.invalid">Assigner</button>
+    </footer>
+  </form>
+</div>

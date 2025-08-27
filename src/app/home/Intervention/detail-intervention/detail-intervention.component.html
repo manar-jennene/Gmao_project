@@ -1,0 +1,194 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<p-toast></p-toast>
+
+<!-- Préloader -->
+<div class="pre-loader">
+  <div class="pre-loader-box">
+    <div class="loader-logo">
+      <img src="assets/vendors/images/logo.png" alt="Logo" />
+    </div>
+    <div class="loader-progress" id="progress_div">
+      <div class="bar" id="bar1"></div>
+    </div>
+    <div class="percent" id="percent1">0%</div>
+    <div class="loading-text">Chargement...</div>
+  </div>
+</div>
+
+<!-- Contenu principal -->
+<div class="jira-container" *ngIf="intervention">
+  <!-- Titre principal -->
+  <div>
+    <h3 class="project-code">
+      Reference/
+      <a [routerLink]="['/home/intervention']" class="reference-link">
+        {{ intervention.reference }}
+      </a>
+    </h3>
+    <p class="resume-text">{{ intervention.resume }}</p>
+  </div>
+
+  <!-- Boutons d'action -->
+  <div class="top-action-buttons">
+    <!-- Le bouton modifier ouvre la modale en mettant showModal à true -->
+    <button mat-stroked-button color="primary" (click)="openEditModal(intervention)">
+      <mat-icon>edit</mat-icon> Modifier
+    </button>
+
+
+    <button mat-stroked-button><mat-icon>comment</mat-icon> Commentaire</button>
+    <button mat-stroked-button color="warn" (click)="AssignResonsableDialog()">
+      <mat-icon>person</mat-icon> Assigner
+    </button>
+    <button mat-stroked-button color="accent" (click)="openChangeStatusDialog()">
+      <mat-icon>sync_alt</mat-icon> Statut
+    </button>
+    <button mat-stroked-button><mat-icon>content_copy</mat-icon> Cloner</button>
+  </div>
+
+  <!-- Deux colonnes -->
+  <div class="content" style="display: flex; gap: 20px;">
+    <!-- Colonne gauche -->
+    <div class="left-panel" style="flex: 1;">
+      <mat-card>
+        <mat-accordion multi="true">
+          <!-- Détails -->
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Détails</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p><strong>Priorité:</strong> {{ intervention.priorite?.libelle }}</p>
+            <p><strong>Status:</strong> {{ intervention.statut?.libelle }}</p>
+            <p><strong>Résolution:</strong> Non résolu</p>
+            <p><strong>Téléphone:</strong> {{ intervention.telephone }}</p>
+            <p><strong>Email:</strong> {{ intervention.email }}</p>
+          </mat-expansion-panel>
+
+          <!-- Description -->
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Description</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>{{ intervention.description || 'Aucune description disponible.' }}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card>
+    </div>
+
+    <!-- Colonne droite -->
+    <div class="right-panel" style="flex: 1;">
+      <mat-card>
+        <mat-accordion multi="true">
+          <!-- Personnes -->
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Personnes</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p><strong>Assigné à:</strong> {{ intervention.responsable?.nom || 'Non assigné' }}</p>
+            <p><strong>Rapporteur:</strong> {{ intervention.rapporteur?.nom }}</p>
+            <p><strong>Observateurs:</strong> 👀 2</p>
+          </mat-expansion-panel>
+
+          <!-- Dates -->
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title>Dates</mat-panel-title>
+            </mat-expansion-panel-header>
+            <p><strong>Créé le:</strong> {{ intervention.created_at | date:'dd/MM/yyyy HH:mm' }}</p>
+            <p><strong>Mis à jour le:</strong> {{ intervention.update_at }}</p>
+            <p><strong>Fin le:</strong> {{ intervention.date_fin | date:'dd/MM/yyyy HH:mm' }}</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Activité sur toute la largeur -->
+  <div style="margin-top: 20px;">
+    <mat-card>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Activité</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <mat-tab-group>
+          <!-- COMMENTAIRES -->
+          <mat-tab label="Commentaires">
+            <div *ngIf="commentaires.length === 0" class="p-3">
+              Aucun commentaire pour cette intervention.
+            </div>
+
+            <div *ngFor="let commentaire of commentaires" class="p-3 border-bottom">
+              <div class="d-flex align-items-center">
+                <mat-icon>account_circle</mat-icon>
+                <strong class="ml-2">{{ commentaire.user.nom }}</strong>
+                <span class="text-muted ml-2">{{ commentaire.updated_at | date:'short' }}</span>
+              </div>
+
+              <div class="mt-1">{{ commentaire.commentaire }}</div>
+
+              <div class="d-flex mt-1 gap-2">
+                <button mat-button>👍</button>
+                <button mat-button>😊</button>
+                <button mat-button (click)="repondreACommentaireId = commentaire.id">Répondre</button>
+                <button mat-button color="primary">Modifier</button>
+                <button mat-button color="warn">Supprimer</button>
+              </div>
+
+              <!-- Zone de réponse -->
+              <div *ngIf="repondreACommentaireId === commentaire.id" class="mt-2">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Votre réponse...</mat-label>
+                  <textarea matInput [(ngModel)]="nouvelleReponse"></textarea>
+                </mat-form-field>
+                <div class="d-flex gap-2 mt-2">
+                  <button mat-raised-button color="primary" (click)="posterReponse(commentaire.id)">Envoyer</button>
+                  <button mat-raised-button color="accent" (click)="annulerReponse()">Annuler</button>
+                </div>
+              </div>
+
+              <!-- AFFICHAGE DES RÉPONSES -->
+              <div *ngFor="let reponse of commentaire.enfants" class="ml-4 mt-3 border-left pl-3">
+                <div class="d-flex align-items-center">
+                  <mat-icon>account_circle</mat-icon>
+                  <strong class="ml-2">{{ reponse.user.nom }}</strong>
+                  <span class="text-muted ml-2">{{ reponse.updated_at | date:'short' }}</span>
+                </div>
+                <div class="mt-1">{{ reponse.commentaire }}</div>
+              </div>
+            </div>
+
+            <!-- Ajouter un commentaire -->
+            <div class="p-3 border-top">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Ajouter un commentaire...</mat-label>
+                <textarea matInput [(ngModel)]="nouveauCommentaire"></textarea>
+              </mat-form-field>
+
+              <div class="d-flex gap-2 mt-2">
+                <button mat-raised-button color="primary" class="button-rounded" (click)="posterCommentaire()">Envoyer</button>
+                <button mat-raised-button color="accent" class="button-rounded">Annuler</button>
+              </div>
+            </div>
+          </mat-tab>
+
+          <mat-tab label="Historique">À implémenter</mat-tab>
+          <mat-tab label="Suivi">À implémenter</mat-tab>
+        </mat-tab-group>
+      </mat-expansion-panel>
+    </mat-card>
+  </div>
+</div>
+
+<!-- Modal ajout/modification -->
+<!-- Affiche le modal uniquement si showModal est true -->
+<div class="custom-modal" *ngIf="showModal">
+  <div class="custom-modal-content">
+    <span class="close-button" (click)="closeModal()">&times;</span>
+    <app-add-intervention
+      [interventionToEdit]="equipementEnCoursEdition ?? undefined"
+      (onClose)="closeModal($event)">
+    </app-add-intervention>
+  </div>
+</div>

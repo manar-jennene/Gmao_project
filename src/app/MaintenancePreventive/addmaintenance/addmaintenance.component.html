@@ -1,0 +1,218 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+
+<div class="main-container">
+  <div class="pd-20 card-box mb-30">
+    <h4 class="text-blue h4 mb-20">
+      <i class="fa fa-cogs mr-2"></i> Create Maintenance Plan
+    </h4>
+
+    <!-- Étapes du processus -->
+    <div class="steps mb-4 d-flex justify-content-between align-items-center">
+      <div class="step" [ngClass]="{active: currentStep === 1}">1 <span>General information</span></div>
+      <div class="step" [ngClass]="{active: currentStep === 2}">2 <span>Planning</span></div>
+      <div class="step" [ngClass]="{active: currentStep === 3}">3 <span>Validation</span></div>
+    </div>
+
+    <!-- Alerte Info -->
+    <div class="alert alert-info mb-4" role="alert">
+      Vous pourrez choisir le type de déclencheur de votre plan de maintenance sur la page suivante : date fixe, achèvement de tâche ou déclencheur externe (API).    </div>
+
+    <form [formGroup]="maintenanceForm">
+      <!-- Step 1 -->
+      <div *ngIf="currentStep === 1">
+
+<!-- Équipement -->
+<div class="form-group">
+  <label for="equipement_id"><i class="fa fa-cogs mr-2"></i>Equipment*</label>
+  <select class="form-control" formControlName="equipement_id" required>
+    <option value="" disabled selected>Select equipment</option>
+    <option *ngFor="let eq of equipements" [value]="eq.id">{{ eq.nom }}</option>
+  </select>
+</div>
+
+
+
+        <div class="form-group">
+          <label for="description"><i class="fa fa-align-left mr-2"></i>Description*</label>
+          <textarea formControlName="description" class="form-control" rows="4" placeholder="Enter description..." required></textarea>
+        </div>
+      
+        <div class="form-group">
+          <label for="periodicite">
+            <i class="fa fa-calendar-alt mr-2"></i>Périodicité *
+          </label>
+          <select class="form-control" formControlName="periodicite" required>
+            <option value="quotidienne">Quotidienne</option>
+            <option value="hebdomadaire">Hebdomadaire</option>
+            <option value="mensuelle">Mensuelle</option>
+            <option value="trimestrielle">Trimestrielle</option>
+            <option value="annuelle">Annuelle</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="type"><i class="fa fa-wrench mr-2"></i>Type*</label>
+          <select class="form-control" formControlName="type">
+            <option value="Préventive">Préventive</option>
+            <option value="Corrective">Corrective</option>
+            <option value="Améliorative">Améliorative</option>
+          </select>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <label for="date_debut"><i class="fa fa-calendar mr-2"></i>Date début*</label>
+          <input type="date" class="form-control" formControlName="date_debut">
+        </div>
+
+        <div class="form-group">
+          <label for="date_fin"><i class="fa fa-calendar mr-2"></i>Date fin</label>
+          <input type="date" class="form-control" formControlName="date_fin">
+        </div>
+
+   <!-- Priorité -->
+<div class="form-group">
+  <label for="priorite"><i class="fa fa-exclamation-triangle mr-2"></i>Priorité*</label>
+  <select class="form-control" formControlName="priorite" required>
+    <option value="" disabled selected>Select priority</option>
+    <option *ngFor="let p of priorites" [value]="p.id">{{ p.libelle }}</option>
+  </select>
+</div>
+
+      <!-- Technicien -->
+<div class="form-group">
+  <label for="technicien_id"><i class="fa fa-user-cog mr-2"></i>Technicien responsable</label>
+  <select class="form-control" formControlName="technicien_id">
+    <option value="" disabled selected>Select technician</option>
+    <option *ngFor="let tech of techniciens" [value]="tech.id">{{ tech.nom }}</option>
+  </select>
+</div>
+        <div class="text-right">
+          <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+        </div>
+      </div>
+
+
+    <!-- Step 2 -->
+<div *ngIf="currentStep === 2">
+
+  <!-- 🔵 Déclencheur -->
+  <div class="form-group border p-3 mb-4 rounded bg-light">
+    <label><i class="fa fa-bullseye mr-2"></i>Déclencheur</label>
+    <div class="btn-group d-flex flex-wrap justify-content-start mt-2">
+      <button
+        *ngFor="let t of triggerTypes"
+        type="button"
+        class="btn btn-toggle mr-2 mb-2"
+        [class.btn-primary]="maintenanceForm.value.trigger_type === t.value"
+        [class.btn-light]="maintenanceForm.value.trigger_type !== t.value"
+        (click)="setTriggerType(t.value)">
+        {{ t.label }}
+      </button>
+    </div>
+  </div>
+    <!-- 🔵 Calendrier  -->
+
+<div class="w-1/3">
+        <label class="block mb-2">
+          <i class="fa fa-calendar-alt mr-2"></i>
+          Planification sur calendrier
+        </label>
+        <div class="bg-white border p-3 text-center rounded shadow-sm">
+          <full-calendar [options]="calendarOptions" style="height: 350px; font-size: 0.8rem;"></full-calendar>
+        </div>
+      </div>
+  <!-- 🔁 Répéter -->
+  <div class="form-group">
+    <label><i class="fa fa-redo mr-2"></i> Répéter chaque :</label>
+
+    <input
+      type="number"
+      class="form-control mb-2"
+      placeholder="e.g. 2"
+      formControlName="frequence"
+      min="1" />
+
+    <div class="btn-group d-flex flex-wrap justify-content-start" role="group">
+      <button
+        type="button"
+        class="btn mr-2 mb-2"
+        [class.btn-primary]="selectedPeriod === 'jour'"
+        [class.btn-light]="selectedPeriod !== 'jour'"
+        (click)="onSelectPeriod('jour')">
+        Jours
+      </button>
+      <button
+        type="button"
+        class="btn mr-2 mb-2"
+        [class.btn-primary]="selectedPeriod === 'hebdomadaire'"
+        [class.btn-light]="selectedPeriod !== 'hebdomadaire'"
+        (click)="onSelectPeriod('hebdomadaire')">
+        Semaines
+      </button>
+      <button
+        type="button"
+        class="btn mr-2 mb-2"
+        [class.btn-primary]="selectedPeriod === 'mensuel'"
+        [class.btn-light]="selectedPeriod !== 'mensuel'"
+        (click)="onSelectPeriod('mensuel')">
+        Mois
+      </button>
+      <button
+        type="button"
+        class="btn mr-2 mb-2"
+        [class.btn-primary]="selectedPeriod === 'annuelle'"
+        [class.btn-light]="selectedPeriod !== 'annuelle'"
+        (click)="onSelectPeriod('annuelle')">
+        Années
+      </button>
+    </div>
+  </div>
+
+  <!-- ✅ Choix des jours si hebdomadaire -->
+  <div class="form-group mt-3" *ngIf="selectedPeriod === 'hebdomadaire'">
+    <label><i class="fa fa-calendar-alt mr-2"></i> Jour :</label>
+    <div class="btn-group d-flex flex-wrap justify-content-start" role="group">
+      <button
+        type="button"
+        class="btn mr-2 mb-2"
+        *ngFor="let day of daysOfWeek"
+        [class.btn-primary]="selectedDays.includes(day)"
+        [class.btn-light]="!selectedDays.includes(day)"
+        (click)="toggleDay(day)">
+        {{ day }}
+      </button>
+    </div>
+  </div>
+
+  <!-- 🔶 Estimated Time -->
+  <div class="form-group">
+    <label><i class="fa fa-clock mr-2"></i> Estimated Time</label>
+    <div class="d-flex">
+      <input type="number" formControlName="temps_estime_jours" class="form-control mr-2" placeholder="Days">
+      <input type="number" formControlName="temps_estime_heures" class="form-control" placeholder="Hours">
+    </div>
+  </div>
+
+  <!-- Navigation buttons -->
+  <div class="d-flex justify-content-between">
+    <button type="button" class="btn btn-secondary" (click)="prevStep()">Back</button>
+    <button type="button" class="btn btn-primary" (click)="nextStep()">Next</button>
+  </div>
+</div>
+
+
+      <!-- Step 3 -->
+      <div *ngIf="currentStep === 3">
+        <h5><i class="fa fa-check-circle mr-2 text-success"></i>Review & Submit</h5>
+        <!-- Summary could go here -->
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" (click)="prevStep()">Back</button>
+          <button type="button" class="btn btn-success" (click)="submit()">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

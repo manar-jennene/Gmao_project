@@ -1,0 +1,57 @@
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* on enlève le padding ici pour gérer via header/footer et form */
+  max-width: 420px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  overflow: hidden; /* pour bien gérer les bordures arrondies */
+}
+
+/* Header avec background bleu */
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #092849;
+  color: white;
+  padding: 15px 20px;
+}
+
+/* Titre blanc */
+.popup-header h5 {
+  font-weight: 700;
+  margin: 0;
+  font-size: 1.3rem;
+}
+
+/* Bouton fermer blanc */
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #dc3545;
+}
+
+/* Formulaire padding interne */
+form {
+  padding: 20px;
+}
+
+/* Footer avec background gris clair */
+.popup-footer {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f1f3f5; /* gris clair */
+  padding: 15px 20px;
+  border-top: 1px solid #ccc;
+}

@@ -1,0 +1,25 @@
+::ng-deep .mat-dialog-container {
+  max-width: 500px !important; /* largeur max réduite */
+  width: 90vw; /* responsive */
+  border-radius: 8px;
+  padding: 0; /* enlever padding interne excessif */
+}
+
+.modal-body-scroll {
+  max-height: 60vh; /* hauteur limitée */
+  overflow-y: auto; /* scroll vertical */
+  padding: 16px; /* marges internes */
+}
+
+.dialog-title {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 16px 16px 0 16px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 8px 16px 16px 16px;
+  border-top: 1px solid #ddd;
+}

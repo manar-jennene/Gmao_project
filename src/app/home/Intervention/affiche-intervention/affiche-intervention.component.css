@@ -1,0 +1,201 @@
+.statuts-table {
+  border: none;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+.statuts-table thead th {
+  background-color: #9fc1e2;
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  text-transform: capitalize;
+  font-size: 0.95rem;
+  vertical-align: middle;
+  border-bottom: 2px solid #dee2e6;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  letter-spacing: 0.5px;
+}
+
+
+.statuts-table tbody tr {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.statuts-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.statuts-table tbody td {
+  padding: 0.85rem 0.75rem;
+  vertical-align: middle;
+}
+
+.statuts-table tbody tr td.text-muted {
+  color: #8898aa !important;
+}
+
+.statuts-table .action-btn {
+  border: none;
+  background-color: transparent !important;
+  color: #5e72e4;
+}
+
+.statuts-table .action-btn:hover,
+.statuts-table .action-btn:focus,
+.statuts-table .action-btn:active {
+  background-color: rgba(94, 114, 228, 0.1) !important;
+  box-shadow: none !important;
+}
+
+.statuts-table .action-btn::after {
+  display: none;
+}
+
+.statuts-table .dropdown-menu-icon-list .dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statuts-table .dropdown-menu-icon-list .dropdown-item i {
+  width: 16px;
+  text-align: center;
+}
+
+.card-box .table-responsive {
+  padding: 0;
+}
+
+.card-box {
+  padding: 1.5rem;
+  border: none;
+  box-shadow: 0 0 2rem 0 rgba(136, 152, 170, .15);
+  border-radius: 0.375rem;
+}
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+.statuts-table thead th {
+  text-align: center;
+}
+.custom-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 500px; /* Taille raisonnable */
+  max-width: 90%;
+  max-height: 80vh; /* Moins haute */
+  overflow-y: auto;  /* Scroll vertical */
+  position: relative;
+  padding-top: 3rem;
+  padding-right: 1.5rem;
+}
+
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+.badge {
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.badge-success {
+  background-color: #28a745;
+  color: white;
+}
+.badge-warning {
+  background-color: #ffc107;
+  color: black;
+}
+.badge-danger {
+  background-color: #dc3545;
+  color: white;
+}
+.badge-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+.clickable-cell {
+  cursor: pointer;
+}
+
+.clickable-cell:hover {
+  background-color: #f1f1f1;
+}
+.badge-primary {
+  background-color: #6ab3da; /* bleu clair */
+  color: white;
+}
+
+.badge-info {
+  background-color: #3498db; /* bleu foncé */
+  color: white;
+}
+
+.badge-success {
+  background-color: #27ae60; /* vert */
+  color: white;
+}
+
+.badge-warning {
+  background-color: #f39c12; /* jaune */
+  color: white;
+}
+
+.badge-danger {
+  background-color: #e74c3c; /* rouge */
+  color: white;
+}
+
+.badge-secondary {
+  background-color: #95a5a6; /* gris */
+  color: white;
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+}
+.pagination-wrapper {
+  display: flex;
+  justify-content: center; /* centre la pagination au milieu */
+  align-items: center;
+  margin-top: 1rem;
+  position: relative;
+  width: 100%;
+  max-width: 900px;  /* ou 100% si tu veux */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Pour pousser le select à droite du conteneur */
+.items-per-page {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+}
