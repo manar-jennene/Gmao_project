@@ -1,65 +1,65 @@
+<!-- Sidebar -->
 <div class="left-side-bar">
   <div class="brand-logo">
     <a href="index.html">
       <img src="assets/vendors/images/logosasnbg.png" alt="Logo" class="logo">
     </a>
     <div class="close-sidebar" id="closeSidebar">
-      <i class="ion-close-round"></i>
+      <i class="fa fa-times"></i>
     </div>
   </div>
 
   <div class="menu-block customscroll">
     <div class="sidebar-menu">
       <ul id="accordion-menu">
+
         <!-- Home -->
         <li class="dropdown">
           <a href="javascript:;" class="dropdown-toggle">
-            <span class="micon dw dw-house-1"></span><span class="mtext">Home</span>
+            <span class="micon"><i class="fa fa-home"></i></span>
+            <span class="mtext">Home</span>
+          </a>
+         
+        </li>
+
+        <!-- Intervention -->
+        <li class="dropdown">
+          <a href="javascript:;" class="dropdown-toggle">
+            <span class="micon"><i class="fa fa-tools"></i></span>
+            <span class="mtext">Intervention</span>
           </a>
           <ul class="submenu">
-            <li><a href="index.html">Dashboard style 1</a></li>
-            <li><a href="index2.html">Dashboard style 2</a></li>
+            <li><a routerLink="/home/intervention">Intervention</a></li>
           </ul>
         </li>
 
-       <!-- Intervention -->
-<li class="dropdown">
-  <a href="javascript:;" class="dropdown-toggle">
-    <span class="micon dw dw-hammer-2"></span>
-    <span class="mtext">Intervention</span>
-  </a>
-  <ul class="submenu">
-    <li><a routerLink="/home/intervention">Intervention</a></li>
-  </ul>
-</li>
+        <!-- Maintenance -->
+        <li class="dropdown">
+          <a href="javascript:;" class="dropdown-toggle">
+            <span class="micon"><i class="fa fa-cogs"></i></span>
+            <span class="mtext">Maintenance</span>
+          </a>
+          <ul class="submenu">
+            <li><a routerLink="/home/affichemaintenance">Maintenance Préventive</a></li>
+          </ul>
+        </li>
 
-<!-- Maintenance -->
-<li class="dropdown">
-  <a href="javascript:;" class="dropdown-toggle">
-    <span class="micon dw dw-settings"></span>
-    <span class="mtext">Maintenance</span>
-  </a>
-  <ul class="submenu">
-    <li><a routerLink="/home/maintenance">Maintenance Preventive</a></li>
-  </ul>
-</li>
-
-<!-- Equipement -->
-<li class="dropdown">
-  <a href="javascript:;" class="dropdown-toggle">
-    <span class="micon dw dw-harddisk"></span>
-    <span class="mtext">Equipement</span>
-  </a>
-  <ul class="submenu">
-    <li><a routerLink="/home/equipement">Equipement</a></li>
-  </ul>
-</li>
-
+        <!-- Équipement -->
+        <li class="dropdown">
+          <a href="javascript:;" class="dropdown-toggle">
+            <span class="micon"><i class="fa fa-microchip"></i></span>
+            <span class="mtext">Équipement</span>
+          </a>
+          <ul class="submenu">
+            <li><a routerLink="/home/equipement">Équipement</a></li>
+          </ul>
+        </li>
 
         <!-- Stock -->
         <li class="dropdown">
           <a href="javascript:;" class="dropdown-toggle">
-            <span class="micon dw dw-box"></span><span class="mtext">Stock</span>
+            <span class="micon"><i class="fa fa-boxes"></i></span>
+            <span class="mtext">Stock</span>
           </a>
           <ul class="submenu">
             <li><a routerLink="/home/stock">Stock Initial</a></li>
@@ -67,23 +67,34 @@
           </ul>
         </li>
 
-        <!-- Planning simple -->
+        <!-- Flux de Statut -->
         <li>
-          <a routerLink="/home/Calendrier" class="dropdown-toggle no-arrow">
-            <span class="micon dw dw-calendar1"></span><span class="mtext">Planning</span>
+          <a routerLink="/home/fluxstatut" class="dropdown-toggle no-arrow">
+            <span class="micon"><i class="fa fa-project-diagram"></i></span>
+            <span class="mtext">Flux de Statuts</span>
           </a>
         </li>
 
-        <!-- Parametrage -->
+        <!-- Planning -->
+        <li>
+          <a routerLink="/home/Calendrier" class="dropdown-toggle no-arrow">
+            <span class="micon"><i class="fa fa-calendar-alt"></i></span>
+            <span class="mtext">Planning</span>
+          </a>
+        </li>
+
+        <!-- Paramétrage -->
         <li class="dropdown">
           <a href="javascript:;" class="dropdown-toggle">
-            <span class="micon dw dw-settings1"></span><span class="mtext">Parametrage</span>
+            <span class="micon"><i class="fa fa-sliders-h"></i></span>
+            <span class="mtext">Paramétrage</span>
           </a>
           <ul class="submenu">
             <li><a routerLink="/home/Statut">Statut</a></li>
             <li><a routerLink="/home/priorite">Priorité</a></li>
           </ul>
         </li>
+
       </ul>
     </div>
   </div>

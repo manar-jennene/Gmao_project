@@ -95,8 +95,9 @@ export class AffichemaintenancepreventiveComponent {
   }
 
   onImageError(event: any) {
-    event.target.src = 'assets/images/default.png'; // Une image locale par défaut
-  }
+      event.target.src = 'assets/images/default.png'; // Une image locale par défaut
+    }
+
   createNewPlan() {
     // redirection vers le formulaire d’ajout
   }
@@ -178,7 +179,9 @@ export class AffichemaintenancepreventiveComponent {
       }
     });
   }
-
+goToAddMaintenance() {
+  this.router.navigate(['/home/maintenance']);
+}
   getTriggerTypes() {
     this.MaintenancepreventiveService.getAlltriigertype().subscribe({
       next: (res) => {

@@ -1,0 +1,9 @@
+.avatar-photo {
+  width: 250px;
+  height: 160px;
+  object-fit: cover;  /* recadre l’image au lieu de la déformer */
+  border-radius: 8px;
+}
+.edit-avatar {
+  margin-right: -20px;  /* décale vers la droite */
+}

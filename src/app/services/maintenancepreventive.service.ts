@@ -49,5 +49,14 @@ export class MaintenancepreventiveService {
     return this.http.get(`${this.apiUrl}/plan-maintenance/${id}`);
   }
 
+    getstat(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/dashboard`);
+  }
+
+
+  getUserStats(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/statuser`); // route Laravel
+  }
+
 
 }

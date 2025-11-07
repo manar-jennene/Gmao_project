@@ -9,20 +9,20 @@ import { LOGINComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AssignresponsableComponent } from './home/Intervention/assignresponsable/assignresponsable.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { HomeModule } from './home/home.module';
-
+import { FrontofficeComponent } from './frontoffice/frontoffice.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RegisterComponent,
     LOGINComponent,
-    DashboardComponent,
     AssignresponsableComponent,
+    FrontofficeComponent,
+
   ],
   imports: [
     BrowserModule,

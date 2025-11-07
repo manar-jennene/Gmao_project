@@ -87,7 +87,7 @@ export class DemandestockComponent {
         piece_id: pieceId,
         quantite_demandee: quantiteDemandee,
         date_demande: formattedDate,
-        statut_id: 1,
+        statut_id: 3,
         demandeur_id: 1
       };
 
@@ -121,6 +121,45 @@ export class DemandestockComponent {
   isRejete(d: DemandeStock): boolean {
     return d.statut_id === 6; // 6 = rejeté
   }
+  // Dans demandestock.component.ts
+
+  rejeterDemande(demande: DemandeStock) {
+    Swal.fire({
+      title: '⚠️ Confirmer le rejet',
+      text: `Voulez-vous vraiment rejeter la demande pour ${this.getPieceNom(demande.piece_id)} ?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Oui, rejeter',
+      cancelButtonText: 'Annuler'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (!demande.id) {
+          console.error("Impossible de rejeter : id manquant !");
+          return;
+        }
+        this.stockService.rejeterDemande(demande.id).subscribe({
+          next: (res) => {
+            demande.statut_id = 6; // 6 = Rejeté
+            Swal.fire({
+              icon: 'success',
+              title: 'Demande rejetée',
+              timer: 1500,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Erreur',
+              text: 'Impossible de rejeter la demande.'
+            });
+            console.error('Erreur rejet demande', err);
+          }
+        });
+      }
+    });
+  }
+
   voirDetails(d: DemandeStock) {
     Swal.fire({
       title: `Détails de la demande`,
@@ -141,12 +180,15 @@ export class DemandestockComponent {
     }
 
     this.stockService.validerDemande(demande.id).subscribe({
-      next: (res) => {
+      next: (res: any) => {
+        // ⚡ Mise à jour locale du statut
+        demande.statut_id = 5; // 5 = Validé
         demande.valide = true;
+
         Swal.fire({
           icon: 'success',
           title: 'Demande validée ✅',
-          text: 'La demande a bien été validée.',
+          text: 'Le statut a été mis à jour avec succès.',
           timer: 1500,
           showConfirmButton: false
         });
@@ -182,8 +224,25 @@ export class DemandestockComponent {
       case 9: return 'Réouverte';
       default: return '';
     }
+
+
+
   }
 
+// Dans demandestock.component.ts
+  getBadgeClass(statutId?: number): string {
+    switch(statutId) {
+      case 1: return 'badge bg-primary';       // Ouvert
+      case 2: return 'badge bg-warning text-dark'; // En cours
+      case 3: return 'badge bg-secondary';    // En attente
+      case 4: return 'badge bg-success';      // Résolu
+      case 5: return 'badge bg-success';      // Validé
+      case 6: return 'badge bg-danger';       // Rejeté
+      case 7: return 'badge bg-dark';         // Clôturé
+      case 9: return 'badge bg-info';         // Réouverte
+      default: return 'badge bg-light text-dark';
+    }
+  }
 
 
 }

@@ -5,12 +5,17 @@
 <div class="main-container">
   <div class="pd-20 card-box mb-30">
     <h4 class="text-blue h4 mb-20">
-      <i class="fa fa-cogs mr-2"></i>  Maintenance Plans
+      <i class="fa fa-cogs mr-2"></i>  Plan de Maintenance 
     </h4>
-    <div class="maintenance-container">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <button class="btn btn-primary"><i class="fa fa-plus mr-1"></i> Creer</button>
-      </div>
+   <div class="d-flex justify-content-between align-items-center mb-3">
+  <h4 class="text-blue h4 mb-0">
+  </h4>
+  <button class="btn btn-primary" (click)="goToAddMaintenance()">
+    <i class="fa fa-plus mr-1"></i> Créer
+  </button>
+</div>
+
+
 
       <!-- Search and Filter -->
       <!-- 🔍 Barre de recherche et bouton de filtre -->
@@ -175,6 +180,5 @@
           </select>
         </div>
       </div>
-    </div>
   </div>
 </div>

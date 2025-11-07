@@ -4,11 +4,11 @@
 <div class="main-container">
   <div class="pd-ltr-20 xs-pd-20-10">
     <div class="min-height-200px">
-      
+
       <!-- En-tête de la page -->
       <div class="page-header mb-3">
         <div class="row align-items-end">
-          
+
           <!-- Titre + Breadcrumb -->
           <div class="col-md-6 col-sm-12">
             <div class="title">
@@ -30,7 +30,6 @@
           <!-- Supprime ce bloc si tu veux une recherche sans bouton -->
 <div class="input-group-append">
   <button class="btn btn-outline-secondary" type="button">
-    <i class="fa fa-search"></i>
   </button>
 </div>
 
@@ -117,7 +116,7 @@
 <div class="custom-modal" *ngIf="showModal">
   <div class="custom-modal-content">
     <span class="close-button" (click)="closeModal()">&times;</span>
-    <app-ajout-statut 
+    <app-ajout-statut
       [statutToEdit]="statutEnCoursEdition ?? undefined"
       (onClose)="closeModal($event)">
     </app-ajout-statut>

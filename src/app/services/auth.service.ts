@@ -51,5 +51,14 @@ export class AuthService {
       const user = this.getUser(); // Méthode qui lit le localStorage/sessionStorage
       return user?.id ?? null;
     }
-    
+
+  updateUserImage(id: number, formData: FormData) {
+    return this.http.post(`http://localhost:8000/api/users/${id}/update-profile`, formData);
+  }
+
+  updateProfile(id: number, userData: any): Observable<any> {
+  return this.http.post(`${this.apiUrl}/users/${id}/update-profile`, userData);
+}
+
+
 }

@@ -78,20 +78,21 @@ export class CalendrierComponent implements OnInit {
 
         this.maintenanceService.getAllInterventions().subscribe({
           next: (preventives: Maintenancepreventive[]) => {
-            this.allMaintenances = preventives.map(mp => {
-              const color = this.getColorByStatut(mp.statut?.libelle);
-              return {
-                title: mp.equipement?.nom || 'Maintenance préventive',
-                start: mp.date_debut,
-                end: mp.date_fin || mp.date_debut,
-                backgroundColor: color,
-                statutColor: color,
-                statut: mp.statut?.libelle?.toLowerCase(),
-                resume: mp.description || '',
-                date_creation: mp.date_debut,  // <-- ajouté
-                date_fin: mp.date_fin
-              };
-            });
+          this.allMaintenances = preventives.map(mp => {
+  const statutLibelle = mp.statut?.libelle || 'ouvert'; // 👈 valeur par défaut
+  const color = this.getColorByStatut(statutLibelle);
+  return {
+    title: mp.equipement?.nom || 'Maintenance préventive',
+    start: mp.date_debut,
+    end: mp.date_fin || mp.date_debut,
+    backgroundColor: color,
+    statutColor: color,
+    statut: statutLibelle.toLowerCase(), // 👈 toujours une valeur
+    resume: mp.description || '',
+    date_creation: mp.date_debut,
+    date_fin: mp.date_fin
+  };
+});
 
             this.applyFilters();
           },

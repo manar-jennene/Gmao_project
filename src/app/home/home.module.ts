@@ -43,6 +43,9 @@ import { AfficheStockComponent } from './GestionStock/affiche-stock/affiche-stoc
 import { AddstockComponent } from './GestionStock/addstock/addstock.component';
 import { ListeStockComponent } from './liste-stock/liste-stock.component';
 import { DemandestockComponent } from './liste-stock/demandestock/demandestock.component';
+import {ProfiluserComponent} from "./profiluser/profiluser.component";
+import { FluxstatutComponent } from './fluxstatut/fluxstatut.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AfficheaquipementComponent,
@@ -67,6 +70,11 @@ import { DemandestockComponent } from './liste-stock/demandestock/demandestock.c
     AddstockComponent,
     ListeStockComponent,
     DemandestockComponent,
+    ProfiluserComponent,
+  FluxstatutComponent,
+      DashboardComponent,
+
+
 
 
   ],

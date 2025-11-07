@@ -1,6 +1,6 @@
 <h5 class="mb-3">{{ isEditMode ? 'Modifier Intervention' : 'Ajouter une Intervention' }}</h5>
 
-<form [formGroup]="interventionForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="interventionForm" (ngSubmit)="onSubmit()" class="p-3">
   <!-- Référence -->
   <div class="form-group mb-3">
     <label for="reference">Référence</label>

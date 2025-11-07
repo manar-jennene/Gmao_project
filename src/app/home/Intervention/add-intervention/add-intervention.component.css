@@ -23,3 +23,12 @@
   padding: 8px 16px 16px 16px;
   border-top: 1px solid #ddd;
 }
+::ng-deep .mat-dialog-container {
+  width: 90vw !important;   /* 90% de la largeur de l’écran */
+  max-width: 1200px !important; /* largeur max, à ajuster */
+  height: auto !important;  /* s’adapte au contenu */
+  max-height: 90vh !important; /* pour éviter que ça dépasse l’écran */
+  border-radius: 8px;
+  padding: 0 !important;
+  overflow: visible !important; /* empêche le scroll interne */
+}

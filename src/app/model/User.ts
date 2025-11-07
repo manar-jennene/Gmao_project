@@ -7,4 +7,5 @@ export class User {
   password?: string;
   role?: string;
   mobile?: string;
+  image?:string ;
 }

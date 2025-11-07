@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+<div class="pre-loader">
+  <div class="pre-loader-box">
+    <div class="loader-logo"><img src="vendors/images/deskapp-logo.svg" alt=""></div>
+    <div class='loader-progress' id="progress_div">
+      <div class='bar' id='bar1'></div>
+    </div>
+    <div class='percent' id='percent1'>0%</div>
+    <div class="loading-text">
+      Loading...
+    </div>
+  </div>
+</div>
+
+
+
+<div class="right-sidebar">
+  <div class="sidebar-title">
+    <h3 class="weight-600 font-16 text-blue">
+      Layout Settings
+      <span class="btn-block font-weight-400 font-12">User Interface Settings</span>
+    </h3>
+    <div class="close-sidebar" data-toggle="right-sidebar-close">
+      <i class="icon-copy ion-close-round"></i>
+    </div>
+  </div>
+  <div class="right-sidebar-body customscroll">
+    <div class="right-sidebar-body-content">
+      <h4 class="weight-600 font-18 pb-10">Header Background</h4>
+      <div class="sidebar-btn-group pb-30 mb-10">
+        <a href="javascript:void(0);" class="btn btn-outline-primary header-white active">White</a>
+        <a href="javascript:void(0);" class="btn btn-outline-primary header-dark">Dark</a>
+      </div>
+
+      <h4 class="weight-600 font-18 pb-10">Sidebar Background</h4>
+      <div class="sidebar-btn-group pb-30 mb-10">
+        <a href="javascript:void(0);" class="btn btn-outline-primary sidebar-light ">White</a>
+        <a href="javascript:void(0);" class="btn btn-outline-primary sidebar-dark active">Dark</a>
+      </div>
+
+      <h4 class="weight-600 font-18 pb-10">Menu Dropdown Icon</h4>
+      <div class="sidebar-radio-group pb-10 mb-10">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebaricon-1" name="menu-dropdown-icon" class="custom-control-input" value="icon-style-1" checked="">
+          <label class="custom-control-label" for="sidebaricon-1"><i class="fa fa-angle-down"></i></label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebaricon-2" name="menu-dropdown-icon" class="custom-control-input" value="icon-style-2">
+          <label class="custom-control-label" for="sidebaricon-2"><i class="ion-plus-round"></i></label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebaricon-3" name="menu-dropdown-icon" class="custom-control-input" value="icon-style-3">
+          <label class="custom-control-label" for="sidebaricon-3"><i class="fa fa-angle-double-right"></i></label>
+        </div>
+      </div>
+
+      <h4 class="weight-600 font-18 pb-10">Menu List Icon</h4>
+      <div class="sidebar-radio-group pb-30 mb-10">
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebariconlist-1" name="menu-list-icon" class="custom-control-input" value="icon-list-style-1" checked="">
+          <label class="custom-control-label" for="sidebariconlist-1"><i class="ion-minus-round"></i></label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebariconlist-2" name="menu-list-icon" class="custom-control-input" value="icon-list-style-2">
+          <label class="custom-control-label" for="sidebariconlist-2"><i class="fa fa-circle-o" aria-hidden="true"></i></label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebariconlist-3" name="menu-list-icon" class="custom-control-input" value="icon-list-style-3">
+          <label class="custom-control-label" for="sidebariconlist-3"><i class="dw dw-check"></i></label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebariconlist-4" name="menu-list-icon" class="custom-control-input" value="icon-list-style-4" checked="">
+          <label class="custom-control-label" for="sidebariconlist-4"><i class="icon-copy dw dw-next-2"></i></label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebariconlist-5" name="menu-list-icon" class="custom-control-input" value="icon-list-style-5">
+          <label class="custom-control-label" for="sidebariconlist-5"><i class="dw dw-fast-forward-1"></i></label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" id="sidebariconlist-6" name="menu-list-icon" class="custom-control-input" value="icon-list-style-6">
+          <label class="custom-control-label" for="sidebariconlist-6"><i class="dw dw-next"></i></label>
+        </div>
+      </div>
+
+      <div class="reset-options pt-30 text-center">
+        <button class="btn btn-danger" id="reset-settings">Reset Settings</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<div class="mobile-menu-overlay"></div>
+
+<div class="main-container">
+  <div class="pd-ltr-20 xs-pd-20-10">
+    <div class="min-height-200px">
+      <div class="page-header">
+        <div class="row">
+          <div class="col-md-12 col-sm-12">
+            <div class="title">
+              <h4>Profile</h4>
+            </div>
+            <nav aria-label="breadcrumb" role="navigation">
+              <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Profile</li>
+              </ol>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 mb-30">
+          <div class="pd-20 card-box height-100-p">
+            <div class="profile-photo">
+              <!-- Bouton pour ouvrir la modale -->
+              <a href="javascript:;" data-toggle="modal" data-target="#modal" class="edit-avatar">
+                <i class="fa fa-pencil"></i>
+              </a>
+
+              <!-- Affichage de la photo actuelle -->
+              <img
+                [src]="previewImage ? previewImage : (user.image ? 'http://localhost:8000/' + user.image : 'assets/vendors/images/default-avatar.png')"
+                alt="avatar"
+                class="avatar-photo"
+              >
+
+              <!-- Modal -->
+              <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-body pd-5">
+                      <div class="img-container text-center">
+                        <img
+                          [src]="previewImage ? previewImage : (user.image ? 'http://localhost:8000/' + user.image : 'assets/vendors/images/default-avatar.png')"
+                          alt="Preview"
+                          class="img-fluid"
+                        >
+                        <input type="file" accept="image/*" (change)="onFileSelected($event)" class="form-control mt-3">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" (click)="onUpdateImage()">Update</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h5 class="text-center h5 mb-0">
+              <span class="user-name">{{ user.nom }} {{ user.prenom }}</span>
+            </h5>
+
+            <div class="profile-info">
+              <h5 class="mb-20 h5 text-blue">Contact Information</h5>
+              <ul>
+                <li>
+                  <span>Email Address:</span>
+                  {{ user.email || 'Not provided' }}
+                </li>
+                <li>
+                  <span>Phone Number:</span>
+                  {{ user.mobile || 'Not provided' }}
+                </li>
+                <li>
+                  <span>Role:</span>
+                  {{ user.role || 'Not specified' }}
+                </li>
+                <li>
+                  <span>Matricule:</span>
+                  {{ user.matricule || 'Not provided' }}
+                </li>
+
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 mb-30">
+          <div class="card-box height-100-p overflow-hidden">
+            <div class="profile-tab height-100-p">
+              <div class="tab height-100-p">
+                <!-- Tab navigation -->
+                <ul class="nav nav-tabs customtab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#setting" role="tab">Settings</a>
+                  </li>
+                </ul>
+
+                <!-- Tab content -->
+                <div class="tab-content">
+                  <!-- Setting Tab start -->
+                  <div class="tab-pane fade show active height-100-p" id="setting" role="tabpanel">
+                    <div class="profile-setting">
+                      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                        <ul class="profile-edit-list row">
+                          <li class="weight-500 col-md-6">
+                            <h4 class="text-blue h5 mb-20">Éditer vos informations personnelles</h4>
+
+                            <!-- Colonne gauche -->
+                            <div class="form-group">
+                              <label>Nom</label>
+                              <input class="form-control form-control-lg" type="text" formControlName="nom">
+                            </div>
+
+                            <div class="form-group">
+                              <label>Prénom</label>
+                              <input class="form-control form-control-lg" type="text" formControlName="prenom">
+                            </div>
+
+                            <div class="form-group">
+                              <label>Matricule</label>
+                              <input class="form-control form-control-lg" type="text" formControlName="matricule">
+                            </div>
+                          </li>
+
+                          <li class="weight-500 col-md-6">
+
+                            <!-- Colonne droite -->
+                            <div class="form-group">
+                              <label>Email</label>
+                              <input class="form-control form-control-lg" type="email" formControlName="email">
+                            </div>
+
+                            <div class="form-group">
+                              <label>Rôle</label>
+                              <input class="form-control form-control-lg" type="text" formControlName="role">
+                            </div>
+
+                            <div class="form-group">
+                              <label>Téléphone</label>
+                              <input class="form-control form-control-lg" type="text" formControlName="mobile">
+                            </div>
+
+                            <div class="form-group mb-0">
+                              <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                            </div>
+                          </li>
+                        </ul>
+                      </form>
+                    </div>
+
+                  </div>
+                  <!-- Setting Tab End -->
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-wrap pd-20 mb-20 card-box">
+      DeskApp - Bootstrap 4 Admin Template By <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+    </div>
+  </div>
+</div>
+<!-- js -->
+<script src="vendors/scripts/core.js"></script>
+<script src="vendors/scripts/script.min.js"></script>
+<script src="vendors/scripts/process.js"></script>
+<script src="vendors/scripts/layout-settings.js"></script>
+<script src="src/plugins/cropperjs/dist/cropper.js"></script>
+<script>
+  window.addEventListener('DOMContentLoaded', function () {
+    var image = document.getElementById('image');
+    var cropBoxData;
+    var canvasData;
+    var cropper;
+
+    $('#modal').on('shown.bs.modal', function () {
+      cropper = new Cropper(image, {
+        autoCropArea: 0.5,
+        dragMode: 'move',
+        aspectRatio: 3 / 3,
+        restore: false,
+        guides: false,
+        center: false,
+        highlight: false,
+        cropBoxMovable: false,
+        cropBoxResizable: false,
+        toggleDragModeOnDblclick: false,
+        ready: function () {
+          cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+        }
+      });
+    }).on('hidden.bs.modal', function () {
+      cropBoxData = cropper.getCropBoxData();
+      canvasData = cropper.getCanvasData();
+      cropper.destroy();
+    });
+  });
+</script>
+</body>
+</html>

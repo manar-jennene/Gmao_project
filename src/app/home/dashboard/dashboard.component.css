@@ -1,0 +1,76 @@
+/* === LAYOUT GLOBAL === */
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  z-index: 1000;
+}
+
+app-sidebar {
+  position: fixed;
+  top: 64px;
+  left: 0;
+  width: 260px;
+  height: calc(100vh - 64px);
+  background: #ffffff;
+  z-index: 999;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+  overflow-y: auto;
+}
+
+/* === CONTENU PRINCIPAL === */
+.main-content {
+  margin-top: 80px; /* pour dégager le header */
+  margin-left: 260px; /* largeur exacte de la sidebar */
+  padding: 2rem;
+  background-color: #f9fafb;
+  min-height: calc(100vh - 80px);
+  transition: margin-left 0.3s ease;
+}
+.feedback-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedback-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.feedback-label {
+  width: 120px;
+  color: #555;
+  font-weight: 500;
+}
+
+.feedback-bar-container {
+  flex-grow: 1;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  height: 26px;
+  overflow: hidden;
+  position: relative;
+}
+
+.feedback-bar {
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  padding-right: 10px;
+  transition: width 0.5s ease;
+}
+
+.feedback-value {
+  position: relative;
+  z-index: 1;
+}

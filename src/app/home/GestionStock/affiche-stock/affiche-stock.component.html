@@ -1,133 +1,84 @@
-
-<!-- preloader -->
 <app-header></app-header>
 <app-sidebar></app-sidebar>
 
-
-<div #preloader class="pre-loader">
-  <div class="pre-loader-box">
-    <div class="loader-logo">
-      <img src="assets/vendors/images/logo.png" alt="logo" style="max-width:120px">
-    </div>
-    <div class="loader-progress" id="progress_div">
-      <div #bar class="bar" id="bar1"></div>
-    </div>
-    <div #percent class="percent" id="percent1">0%</div>
-    <div class="loading-text">Loading...</div>
-  </div>
-</div>
-
-
-
-<main class="container">
-  <!-- left big card: My operations -->
-  <section class="card">
-    <div class="left-accent" style="background:#19a1c8"></div>
-    <div class="card-title" style="color:#19a1c8">Mes operations</div>
-
+<main class="dashboard-container">
+  <!-- Section opérations -->
+  <section class="card card-ops">
+    <h2>⚙️ Mes opérations</h2>
     <div class="ops-grid">
-      <div class="op-btn">Demande un Stock </div>
-      <div class="op-btn">Ajouter Stock</div>
-      <div class="op-btn">Historique de stock </div>
-      <div class="op-btn">Statistique </div>
+      <button class="btn-primary" routerLink="/home/demandestock">Demande de Stock</button>
+      <button class="btn-primary" routerLink="/home/listestock">Ajouter Stock</button>
+      <button class="btn-primary" routerLink="/home/historique">Historique de Stock</button>
+      <button class="btn-primary" routerLink="/home/mouvement">Mouvement de Stock</button>
     </div>
   </section>
 
-  <!-- right: Products in stock alert -->
-  <section class="card">
-    <div class="left-accent" style="background:#19a1c8"></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;">
-      <div>
-        <div class="card-title" style="color:#e24f3a;display:inline-block;">Products in stock alert</div>
-        <span class="small-note">0</span>
-      </div>
-    </div>
-
-    <table aria-label="produits alerte">
+  <!-- Section alerte produit -->
+  <section class="card card-alert">
+    <h2>🚨 Produits en alerte</h2>
+    <table>
       <thead>
         <tr>
-          <th>Reference</th>
-          <th>Name</th>
-          <th>Minimum stock</th>
-          <th>Actual stock</th>
+          <th>Référence</th>
+          <th>Nom</th>
+          <th>Seuil Minimum</th>
+          <th>Quantité Disponible</th>
         </tr>
       </thead>
       <tbody>
-        <tr class="muted-row"><td colspan="4"></td></tr>
-        <tr>
-          <td>PR-001</td>
-          <td>Ressort Amortisseur</td>
-          <td>10</td>
-          <td>8</td>
+        <tr *ngFor="let item of produitsAlertes">
+          <td>{{ item.reference }}</td>
+          <td>{{ item.nom }}</td>
+          <td>{{ item.seuil_minimum }}</td>
+          <td>{{ item.quantite_disponible }}</td>
         </tr>
-        <tr>
-          <td>PR-002</td>
-          <td>Visserie M6</td>
-          <td>50</td>
-          <td>75</td>
+        <tr *ngIf="!produitsAlertes || produitsAlertes.length === 0">
+          <td colspan="4" style="text-align:center; color:#888;">Aucun produit en alerte</td>
         </tr>
       </tbody>
     </table>
   </section>
 
-  <!-- bottom row -->
-  <div class="bottom-row" style="grid-column: 1 / -1;">
-    <section class="card">
-      <div class="left-accent" style="background:#ff9b3b"></div>
-      <div class="card-title" style="color:#ff9b3b;display:inline-block;">
-        Ongoing shipment <span class="small-note">0</span>
-      </div>
-      <div class="see-more">See more &gt;</div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Order N°</th>
-            <th>Customer</th>
-            <th>Order date</th>
-            <th>Site</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="muted-row"><td colspan="4"></td></tr>
-          <tr>
-            <td>ORD-101</td>
-            <td>ACME Corp.</td>
-            <td>2025-08-18</td>
-            <td>Site A</td>
-          </tr>
-        </tbody>
-      </table>
+  <!-- Section IA + Statistiques -->
+  <div class="ia-stats-row">
+    <section class="card card-ia">
+      <h2>🤖 Alerte IA</h2>
+      <p *ngIf="alertMessage">⚠ {{ alertMessage }}</p>
+      <p *ngIf="!alertMessage">Aucune alerte détectée pour les prochains jours.</p>
+      <button class="btn-danger" (click)="toggleIA()">
+        {{ showIA ? "Masquer détails IA" : "Voir détails IA" }}
+      </button>
     </section>
 
-    <section class="card">
-      <div class="left-accent" style="background:#6b5fa8"></div>
-      <div class="card-title" style="color:#6b5fa8;display:inline-block;">
-        Ongoing reception <span class="small-note">0</span>
-      </div>
-      <div class="see-more">See more &gt;</div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Order N°</th>
-            <th>Delivery N°</th>
-            <th>Supplier</th>
-            <th>Order date</th>
-            <th>Site</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="muted-row"><td colspan="5"></td></tr>
-          <tr>
-            <td>RCV-202</td>
-            <td>DLV-089</td>
-            <td>GlobalParts</td>
-            <td>2025-08-17</td>
-            <td>Site B</td>
-          </tr>
-        </tbody>
-      </table>
+    <section class="card stats-card">
+      <h3>📊 Statistiques</h3>
+      <p><strong>Valeur minimale prévue :</strong> {{ minPrediction | number:'1.2-2' }}</p>
+      <p><strong>Nombre de jours analysés :</strong> {{ predictions.length }}</p>
     </section>
   </div>
+
+  <!-- Section graphique -->
+  <section class="card chart-card">
+    <h3>📈 Graphique de prédiction</h3>
+    <canvas id="predictionChart"></canvas>
+  </section>
+
+  <!-- Section tableau -->
+  <section class="card table-card">
+    <h3>📅 Détails des prédictions</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Prévision Stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pred of predictions">
+          <td>{{ pred.ds }}</td>
+          <td>{{ pred.yhat | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
 </main>

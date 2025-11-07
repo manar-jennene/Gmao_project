@@ -70,51 +70,42 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let d of demandes">
-                  <td>{{ getPieceNom(d.piece_id || 0) }}</td>
-                  <td><span class="badge bg-info text-dark">{{ d.quantite_demandee }}</span></td>
-                  <td>{{ d.date_demande | date:'dd/MM/yyyy' }}</td>
-                  <td>
-  <span [ngClass]="{
-    'badge bg-warning text-dark': d.statut_id === 1 || d.statut_id === 2 || d.statut_id === 3,
-    'badge bg-success': d.statut_id === 4 || d.statut_id === 5,
-    'badge bg-danger': d.statut_id === 6,
-    'badge bg-secondary': d.statut_id === 7
-  }">
-    {{ getStatutLabel(d.statut_id) }}
-  </span>
-                  </td>
-                  <td>
-                    <!-- Si la demande n’est pas encore validée ou rejetée -->
-                    <div *ngIf="!d.valide && !isRejete(d)">
-                      <button class="btn btn-sm btn-success me-1" (click)="validerDemande(d)">
-                        <i class="bi bi-check-circle"></i> Valider
-                      </button>
+              <tr *ngFor="let d of demandes">
+                <td>{{ getPieceNom(d.piece_id || 0) }}</td>
+                <td><span class="badge bg-info text-dark">{{ d.quantite_demandee }}</span></td>
+                <td>{{ d.date_demande | date:'dd/MM/yyyy' }}</td>
+                <td>
+      <span [ngClass]="getBadgeClass(d.statut_id)">
+        {{ getStatutLabel(d.statut_id) }}
+      </span>
+                </td>
+                <td class="text-center">
+                  <!-- Bouton Valider (visible seulement si pas validé et pas rejeté) -->
+                  <button
+                    *ngIf="!d.valide && d.statut_id !== 6"
+                    class="btn btn-sm btn-outline-success me-1"
+                    (click)="validerDemande(d)">
+                    ✅ Valider
+                  </button>
 
-                      <button class="btn btn-sm btn-danger me-1" (click)="rejeterDemande(d)">
-                        <i class="bi bi-x-circle"></i> Rejeter
-                      </button>
-                    </div>
+                  <!-- Bouton Rejeter (toujours visible) -->
+                  <button
+                    *ngIf="d.statut_id !== 6"
+                    class="btn btn-sm btn-outline-danger me-1"
+                    (click)="rejeterDemande(d)">
+                    ❌ Rejeter
+                  </button>
 
-                    <!-- Si déjà validée -->
-                    <span *ngIf="d.valide" class="badge bg-success">
-    <i class="bi bi-check-circle-fill"></i> Validée
-  </span>
-
-                    <!-- Si déjà rejetée -->
-                    <span *ngIf="isRejete(d)" class="badge bg-danger">
-    <i class="bi bi-x-circle-fill"></i> Rejetée
-  </span>
-
-                    <!-- Toujours afficher le bouton détails -->
-                    <button class="btn btn-sm btn-info ms-2" (click)="voirDetails(d)">
-                      <i class="bi bi-eye"></i> Détails
-                    </button>
-                  </td>
-
-
-                </tr>
+                  <!-- Bouton Voir détails -->
+                  <button
+                    class="btn btn-sm btn-outline-info"
+                    (click)="voirDetails(d)">
+                    🔍 Détails
+                  </button>
+                </td>
+              </tr>
               </tbody>
+
             </table>
           </div>
         </div>

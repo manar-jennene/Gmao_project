@@ -13,6 +13,8 @@ import { AfficheStockComponent } from './GestionStock/affiche-stock/affiche-stoc
 import { AddstockComponent } from './GestionStock/addstock/addstock.component';
 import { ListeStockComponent } from './liste-stock/liste-stock.component';
 import { DemandestockComponent } from './liste-stock/demandestock/demandestock.component';
+import {ProfiluserComponent} from "./profiluser/profiluser.component";
+import { FluxstatutComponent } from './fluxstatut/fluxstatut.component';
 
 const routes: Routes = [
 
@@ -28,6 +30,9 @@ const routes: Routes = [
   { path: 'stock', component: AfficheStockComponent },
   { path: 'listestock', component: ListeStockComponent },
   { path: 'demandestock', component: DemandestockComponent },
+  { path: 'profile', component: ProfiluserComponent }, // ✅ route pour profil
+    { path: 'fluxstatut', component: FluxstatutComponent }, // ✅ route pour profil
+
 
 ];
 

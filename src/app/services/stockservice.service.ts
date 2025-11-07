@@ -50,5 +50,16 @@ export class StockserviceService {
     return this.http.put<any>(`${this.apiUrl}/demande/validedemande/${id}`, {});
   }
 
+// Dans stockservice.service.ts
+
+  rejeterDemande(id: number) {
+    return this.http.put<any>(`${this.apiUrl}/demande/rejeter/${id}`, {});
+  }
+
+  //foreststock
+getForecast(stockId: number): Observable<any> {
+  return this.http.get(`${this.apiUrl}/${stockId}/forecast`);
+}
+
 
 }

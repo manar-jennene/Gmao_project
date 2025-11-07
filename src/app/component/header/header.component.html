@@ -26,13 +26,12 @@
           <span class="user-icon">
             <i class="dw dw-user1"></i>
                     </span>
-
-
-
           <span class="user-name">{{ user.nom }} {{ user.prenom }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-right">
-          <a class="dropdown-item" routerLink="/profile"><i class="dw dw-user1"></i> Profile</a>
+          <a class="dropdown-item" routerLink="/home/profile">
+            <i class="dw dw-user1"></i> Profile
+          </a>
           <a class="dropdown-item" routerLink="/settings"><i class="dw dw-settings2"></i> Setting</a>
           <a class="dropdown-item" routerLink="/help"><i class="dw dw-help"></i> Help</a>
           <a class="dropdown-item" (click)="onLogout()">

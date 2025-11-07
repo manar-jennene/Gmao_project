@@ -2,8 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RegisterComponent } from './register/register.component';
 import { LOGINComponent } from './login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './home/dashboard/dashboard.component';
 import { AuthGuard } from './guards/auth.guard';
+import { FrontofficeComponent } from './frontoffice/frontoffice.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' }, // Redirige vers Login par défaut
@@ -16,6 +17,11 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
+    //canActivate: [AuthGuard] // Empêche l'accès sans authentification
+  },
+    {
+    path: 'frontoffice',
+    component: FrontofficeComponent,
     //canActivate: [AuthGuard] // Empêche l'accès sans authentification
   },
   { path: '**', redirectTo: 'login' } // Redirection si la route n'existe pas
