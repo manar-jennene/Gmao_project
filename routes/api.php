@@ -11,7 +11,10 @@ use App\Http\Controllers\InterventionUpdateController;
 use App\Http\Controllers\CommentaireController;
 use App\Http\Controllers\InterventionController;
 use App\Http\Controllers\MaintenancepreventiveController;
+use App\Http\Controllers\DashboardController;
+
 use App\Http\Controllers\StockController;
+
 
 
 
@@ -37,6 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 Route::get('/users', [UserController::class, 'index']); // Liste des utilisateurs
+Route::post('/users/{id}/update-profile', [UserController::class, 'updateProfile']);
+
 //role
 Route::get('/getroles', [RoleController::class, 'index']); // Afficher tous les rôles
 Route::post('/addroles', [RoleController::class, 'store']); // Ajouter un rôle
@@ -51,12 +56,12 @@ Route::prefix('parametrage')->group(function () {
     Route::post('/addpriorite', [PrioriteController::class, 'store']);
     Route::delete('/deletepriorite/{id}', [PrioriteController::class, 'destroy']);
     Route::put('/updatepriorite/{id}', [PrioriteController::class, 'update']);
-    //categorie 
+    //categorie
     Route::get('/categorie', [StatutController::class, 'getcategorie']);
     Route::post('/addcategorie', [StatutController::class, 'addCategorie']);
     Route::delete('/deletecategorie/{id}', [StatutController::class, 'destroyCategorie']);
     Route::put('/updatecategorie/{id}', [StatutController::class, 'updateCategorie']);
-    
+
 
 
 
@@ -75,14 +80,26 @@ Route::prefix('stock')->group(function () {
      Route::get('/getstock', [StockController::class, 'indexStock']);          // Liste tous les stocks
      Route::post('/add', [StockController::class, 'addStock']);        // Ajouter un stock
      Route::put('/update/{id}', [StockController::class, 'updateStock']); // Mettre à jour un stock
-     Route::delete('/delete/{id}', [StockController::class, 'deleteStock']); // Supprimer un stock
- 
+     Route::delete('/delete/{id}', [StockController::class, 'deleteStock']);
+     Route::get('/{id}/historique', [StockController::class,'getHistoriqueSorties']);
+     Route::get('/{stockId}/forecast', [StockController::class, 'forecast']);
+     Route::get('/forecastAll', [StockController::class, 'forecastAll']);
+
+
+
+
+     // Supprimer un stock
+
      // ==================== DEMANDE STOCK ====================
      Route::get('/demande', [StockController::class, 'indexDemande']);       // Liste toutes les demandes
      Route::post('/demande/add', [StockController::class, 'addDemande']);    // Ajouter une demande
      Route::put('/demande/update/{id}', [StockController::class, 'updateDemande']); // Mettre à jour une demande
      Route::delete('/demande/delete/{id}', [StockController::class, 'deleteDemande']); // Supprimer une demande
-     Route::put('/demande/validedemande/{id}', [StockController::class, 'valider']); // Mettre à jour une demande
+     Route::put('/demande/validedemande/{id}', [StockController::class, 'valider']);
+     // Mettre à jour une demande
+     Route::put('/demande/rejeter/{id}', [StockController::class, 'rejeterDemande']);
+
+
 
 });
 
@@ -122,8 +139,10 @@ Route::prefix('maintenance')->group(function () {
     Route::get('/plan-maintenance/{id}', [MaintenancepreventiveController::class, 'getById']);
     Route::get('/triggertypes', [MaintenancepreventiveController::class, 'getTriggerTypes']);
     Route::get('/getPeriodicite', [MaintenancepreventiveController::class, 'getPeriodicite']);
+    Route::get('/dashboard', [DashboardController::class, 'getStats']);
+    Route::get('/statuser', [DashboardController::class, 'getUserStats']);
 
 
-    
+
 });
 

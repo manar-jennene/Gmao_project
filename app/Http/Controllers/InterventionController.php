@@ -83,92 +83,72 @@ class InterventionController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
-    {
-        try {
-            // Vérifier que l'utilisateur est connecté
-            if (!auth()->check()) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Utilisateur non authentifié.'
-                ], 401);
+  public function update(Request $request, $id)
+{
+    try {
+        $intervention = Intervention::findOrFail($id);
+        $oldValues = $intervention->toArray(); // anciennes valeurs
+
+        $validatedData = $request->validate([
+            'description' => 'nullable|string',
+            'reference' => 'nullable|string|unique:interventions,reference,' . $id,
+            'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'date_creation' => 'nullable|date',
+            'date_fin' => 'nullable|date|after_or_equal:date_creation',
+            'telephone' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+            'resume' => 'required',
+            'site' => 'required',
+            'statut_id' => 'nullable|exists:statuts,id',
+            'priorite_id' => 'nullable|exists:priorites,id',
+            'equipement_id' => 'nullable|exists:equipements,id'
+        ]);
+
+        // Gestion du fichier
+        if ($request->hasFile('file')) {
+            if ($intervention->file) {
+                Storage::disk('public')->delete($intervention->file);
             }
-    
-            $intervention = Intervention::findOrFail($id);
-            $oldValues = $intervention->toArray(); // anciennes valeurs
-    
-            $validatedData = $request->validate([
-                'description' => 'nullable|string',
-                'reference' => 'nullable|string|unique:interventions,reference,' . $id,
-                'file' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
-                'date_creation' => 'nullable|date',
-                'date_fin' => 'nullable|date|after_or_equal:date_creation',
-                'responsable' => 'nullable|exists:users,id',
-                'telephone' => 'required|string|max:20',
-                'email' => 'required|email|max:255',
-                'resume' => 'required',
-                'site' => 'required',
-                'statut_id' => 'nullable|exists:statuts,id',
-                'priorite_id' => 'nullable|exists:priorites,id',
-                'equipement_id' => 'nullable|exists:equipements,id'
-            ]);
-    
-            // Gestion du fichier
-            if ($request->hasFile('file')) {
-                if ($intervention->file) {
-                    Storage::disk('public')->delete($intervention->file);
-                }
-                $validatedData['file'] = $request->file('file')->store('interventions', 'public');
-            }
-    
-            // Comparer anciennes et nouvelles valeurs
-            foreach ($validatedData as $field => $newValue) {
-                $oldValue = $oldValues[$field] ?? null;
-    
-                // Si le champ est un fichier UploadedFile, on le transforme en string (nom du fichier)
-                if ($newValue instanceof \Illuminate\Http\UploadedFile) {
-                    $newValue = $validatedData['file'] ?? null;
-                }
-    
-                // Enregistrer seulement si changement
-                if ($oldValue != $newValue) {
-                    Historique::create([
-                        'attribut' => $field,
-                        'previus' => is_null($oldValue) ? null : (string)$oldValue,
-                        'next' => is_null($newValue) ? null : (string)$newValue,
-                        'user_id' => auth()->id() ?? 1, // <--- ici
-                        'intervention_id' => $intervention->id,
-                        'maintenancepreventive_id' => null
-                    ]);
-                }
-            }
-    
-            // Mise à jour réelle
-            $intervention->update($validatedData);
-            $intervention->load(['statut', 'priorite', 'equipement', 'rapporteur', 'responsable']);
-    
-            return response()->json([
-                'success' => true,
-                'message' => 'Intervention mise à jour avec succès.',
-                'data' => $intervention
-            ]);
-    
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Erreur de validation.',
-                'errors' => $e->errors()
-            ], 422);
-        } catch (\Exception $e) {
-            // Pour debug : afficher l'erreur exacte
-            return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ], 500);
+            $validatedData['file'] = $request->file('file')->store('interventions', 'public');
         }
+
+        // Comparer anciennes et nouvelles valeurs
+        foreach ($validatedData as $field => $newValue) {
+            $oldValue = $oldValues[$field] ?? null;
+
+            if ($newValue instanceof \Illuminate\Http\UploadedFile) {
+                $newValue = $validatedData['file'] ?? null;
+            }
+
+           
+        }
+
+        // Mise à jour réelle
+        $intervention->update($validatedData);
+        $intervention->load(['statut', 'priorite', 'equipement', 'rapporteur', 'responsable']);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Intervention mise à jour avec succès.',
+            'data' => $intervention
+        ]);
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Erreur de validation.',
+            'errors' => $e->errors()
+        ], 422);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ], 500);
     }
-    
+}
+
+
     public function destroy($id)
     {
         try {

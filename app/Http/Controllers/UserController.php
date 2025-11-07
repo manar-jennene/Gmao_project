@@ -139,10 +139,49 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+public function updateProfile(Request $request, $id)
+{
+    $user = User::findOrFail($id);
+
+    // Validation des champs
+    $validated = $request->validate([
+        'nom' => 'nullable|string|max:255',
+        'prenom' => 'nullable|string|max:255',
+        'matricule' => 'nullable|string|unique:users,matricule,' . $user->id,
+        'mobile' => 'nullable|string',
+        'email' => 'nullable|string|email|max:255|unique:users,email,' . $user->id,
+        'password' => 'nullable|string|min:8|confirmed', // tu peux gérer la confirmation si besoin
+        'role' => 'nullable|string|exists:roles,role',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+    ]);
+
+    // Mise à jour des champs classiques
+    if ($request->filled('nom')) $user->nom = $validated['nom'];
+    if ($request->filled('prenom')) $user->prenom = $validated['prenom'];
+    if ($request->filled('matricule')) $user->matricule = $validated['matricule'];
+    if ($request->filled('mobile')) $user->mobile = $validated['mobile'];
+    if ($request->filled('email')) $user->email = $validated['email'];
+    if ($request->filled('role')) $user->role = $validated['role'];
+    if ($request->filled('password')) $user->password = Hash::make($validated['password']);
+
+    // Mise à jour de l'image
+    if ($request->hasFile('image')) {
+        $file = $request->file('image');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('uploads/users'), $filename);
+
+        $user->image = 'uploads/users/' . $filename;
     }
+
+    $user->save();
+
+    return response()->json([
+        'message' => 'Profil mis à jour avec succès',
+        'user' => $user
+    ]);
+}
+
+
 
     /**
      * Remove the specified resource from storage.
